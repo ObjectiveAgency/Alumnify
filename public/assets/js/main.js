@@ -95,8 +95,8 @@ var App = (function () {
 
         //Add classes to create a delay on sub menu close action after mouse leave
         if( !click || ( click && !isOpen ) ){
-          li.addClass('open');
-          subMenu.addClass("visible");
+          // li.addClass('open');
+          // subMenu.addClass("visible");
         }
         subMenu.removeClass("hide");
       }
