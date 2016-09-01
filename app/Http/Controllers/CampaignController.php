@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+use App\Http\Requests;
+
+class CampaignController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,6 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('profile');
+        return view('campaign');
     }
 }

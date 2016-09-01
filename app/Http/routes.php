@@ -11,10 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'LandingController@index');
 
 Route::auth();
 
-Route::get('/dashboard', 'HomeController@index');
+Route::get('/dashboard', 'DashboardController@index');
+
+Route::get('/campaign', 'CampaignController@index');
+
+Route::get('/subscribers', 'SubscriberController@index');
+
+Route::get('/connections', 'ConnectionController@index');
