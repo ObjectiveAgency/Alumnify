@@ -48,7 +48,7 @@
 
           <div id="am-navbar-collapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right am-user-nav">
-              <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">{{ Auth::user()->name }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/img/avatar.jpg"><span class="user-name">Samantha Amaretti</span><span class="angle-down s7-angle-down"></span></a>
+              <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">{{ Auth::user()->name }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/img/logo.png"><span class="user-name">Samantha Amaretti</span><span class="angle-down s7-angle-down"></span></a>
                 <ul role="menu" class="dropdown-menu">
                   <li><a href="#"> <span class="icon s7-user"></span>My profile</a></li>
                   <li><a href="#"> <span class="icon s7-config"></span>Settings</a></li>

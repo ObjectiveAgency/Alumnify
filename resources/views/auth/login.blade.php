@@ -20,7 +20,7 @@
         <div class="main-content">
           <div class="login-container">
             <div class="panel panel-default">
-              <div class="panel-heading"><img src="assets/img/logo-full-retina.png" alt="logo" width="150px" height="39px" class="logo-img"><span>Please enter your user information.</span></div>
+              <div class="panel-heading"><img src="assets/img/logo-full-retina.png" alt="logo" width="150px" height="150px" class="logo-img"><span>Please enter your user information.</span></div>
               <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                   {{ csrf_field() }}
