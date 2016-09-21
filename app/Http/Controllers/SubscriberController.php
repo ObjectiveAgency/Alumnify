@@ -10,6 +10,16 @@ class SubscriberController extends Controller
 {
     public function index()
     {
-        return view('subscribers');
+        return view('subscribers.index');
     }
+
+    public function store(Request $request)
+	{
+	    $this->validate($request, [
+	        'fname' => 'required|max:255',
+	    ]);
+	
+	    // Create The Task...
+	}
+
 }

@@ -13,12 +13,31 @@
 
 Route::get('/', 'LandingController@index');
 
+// authentication routes
 Route::auth();
 
+// dashboard routes
 Route::get('/dashboard', 'DashboardController@index');
 
+// campaign routes
 Route::get('/campaign', 'CampaignController@index');
 
+// subscribers routes
 Route::get('/subscribers', 'SubscriberController@index');
 
+// connections routes
 Route::get('/connections', 'ConnectionController@index');
+
+// profile routes
+Route::get('/profile', 'ProfileController@index');
+
+Route::post('/profile/update', 'ProfileController@update');
+
+Route::post('/profile/update/image', 'ProfileController@updateImage');
+
+// settings routes
+Route::get('/settings', 'SettingsController@index');
+
+Route::post('/settings/update/email', 'SettingsController@changeEmail');
+
+Route::post('/settings/update/password', 'SettingsController@changePass');
