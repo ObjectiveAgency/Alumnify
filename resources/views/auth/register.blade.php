@@ -21,7 +21,7 @@
         <div class="main-content">
           <div class="login-container sign-up">
             <div class="panel panel-default">
-              <div class="panel-heading"><img src="assets/img/logo-full-retina.png" alt="logo" width="150px" height="39px" class="logo-img"><span>Please enter your user information.</span></div>
+              <div class="panel-heading"><img src="assets/img/logo-full-retina.png" alt="logo" width="150px" height="150px" class="logo-img"><span>Please enter your user information.</span></div>
               <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
@@ -36,6 +36,20 @@
                         @if ($errors->has('name'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                        @endif
+
+                      </div>
+                    </div>
+
+                    <div class="form-group{{ $errors->has('company') ? ' has-error' : '' }}">
+                      <div id="nick-handler" class="input-group"><span class="input-group-addon"><i class="icon s7-user"></i></span>
+
+                        <input type="text" name="company" data-parsley-trigger="change" data-parsley-errors-messages-disabled="true" data-parsley-class-handler="#nick-handler" required="" placeholder="Company" autocomplete="off" class="form-control" value="{{ old('company') }}">
+
+                        @if ($errors->has('company'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('company') }}</strong>
                             </span>
                         @endif
 
