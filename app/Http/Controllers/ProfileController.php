@@ -40,7 +40,7 @@ class ProfileController extends Controller
     		$image = $request->file('image');
     		$filename = time().'.'.$image->getClientOriginalExtension();
 
-    		Image::make($image)->resize(300,300)->save(public_path('/assets/img/uploads/'.$filename));
+    		Image::make($image)->resize(300,300)->save(public_path('assets/img/uploads/'.$filename));
 
     		$user=Auth::user();
     		$user->image=$filename;
