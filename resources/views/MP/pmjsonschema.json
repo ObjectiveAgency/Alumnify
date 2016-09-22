@@ -1,0 +1,53 @@
+{
+	"email_address": "JohnPaulGrefaldo@gmail.com",
+	"unique_email_id": "",
+	"email_type": "text",
+	"status": "subscribe",
+	"status_if_new": "",
+	"merge_fields": {
+"FNAME":"John Paul",
+"LNAME":"Grefaldo",
+"ADDRESS":"#97 Purok 2, Brgy. Basud,
+	 		West District,
+	 		Sorsogon City,
+	 		Philippines,
+	 		4700"
+},
+	"interests": {},
+	"stats": {},
+	"ip_signup": "",
+	"timestamp_signup": "",
+	"ip_opt": "",
+	"timestamp_opt": "",
+	"member_rating": "",
+	"last_changed": "",
+	"language": "",
+	"vip": "",
+	"email_client": "",
+	"location": {
+		"latitude": "",
+		"longitude": ""
+	},
+	"last_note": {
+		"note_id": "",
+		"created_at": "",
+		"created_by": "",
+		"note": ""
+	},
+	"list_id": "",
+	"_links": ""
+}
+
+ {"email_address":"test@testing.com",
+ "status":"subscribed",
+ "merge_fields":{
+ 			"FNAME":"Testing out",
+ 			"LNAME":"Address",
+ 			"ADDRESS":{
+					"addr1":"#97 Purok 2",
+					"addr2":"Brgy. Basud, West District",
+					"city":"Sorsogon City",
+					"state":"Philippines",
+					"zip":"4700"}
+				}
+			}
