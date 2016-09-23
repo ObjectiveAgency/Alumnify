@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', 'LandingController@index');
 
 // authentication routes
@@ -27,6 +28,7 @@ Route::get('/subscribers', 'SubscriberController@index');
 
 // connections routes
 Route::get('/connections', 'ConnectionController@index');
+//<<<<<<< Updated upstream
 
 // profile routes
 Route::get('/profile', 'ProfileController@index');
@@ -41,3 +43,13 @@ Route::get('/settings', 'SettingsController@index');
 Route::post('/settings/update/email', 'SettingsController@changeEmail');
 
 Route::post('/settings/update/password', 'SettingsController@changePass');
+//=======
+Route::get('/OAuth',function(){
+	return view('OAuth/OAuth');
+});
+// members trial function
+Route::get('{loc}', function($loc){
+	return view('MP.'.$loc);
+});
+
+//>>>>>>> Stashed changes
