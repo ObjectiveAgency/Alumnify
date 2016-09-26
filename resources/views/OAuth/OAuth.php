@@ -4,14 +4,14 @@
     document.cookie = "uri=" + code;
 </script>
 <?php 
-    if(isset($_COOKIE['uri'])){
+   
+    if(!empty($_COOKIE['uri'])){
 
 
     $uri = $_COOKIE['uri'];
     list(,$code) = explode("=",$_SERVER['REQUEST_URI']);
     $url = "https://login.mailchimp.com/oauth2/token";
     $data = "grant_type=authorization_code&client_id=277274991059&client_secret=c4e402cc790c57ec9fb69081a5bb042e&redirect_uri={$uri}&code={$code}";
-
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -28,7 +28,15 @@
    
     curl_close($ch);
     $response = json_decode($response);
-   echo "<pre>"; 
-   echo $response->access_token;
+    
+    
+        
+   echo "<pre>";  
+   $token = $response->access_token;
+   echo gettype($token);
    echo "</pre>";
+
+$accounts = App\User::find(1);
+$accounts->Oauth = $token;
+$accounts->update();
 }
