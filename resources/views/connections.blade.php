@@ -22,8 +22,8 @@
   <div class="main-content">
     <h3 class="text-center">Content goes here!</h3>
   </div>
-  <div class"text-center">
-    <iframe id="iframe" width="500" height="500" src="https://login.mailchimp.com/oauth2/authorize?response_type=code&client_id=277274991059" frameborder="0" allowfullscreen="">
+  <div class"text-center" align="center">
+    <iframe align="center" id="iframe" width="500" height="500" src="https://login.mailchimp.com/oauth2/authorize?response_type=code&client_id=277274991059" frameborder="0" allowfullscreen="">
     </iframe>
   </div>
 

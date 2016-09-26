@@ -9,9 +9,9 @@ use \DrewM\MailChimp\MailChimp;//mailchimp namespace
 */
 
 $MailChimp = new MailChimp('dfd2a41d52f4fef742def6bbc43b78b9-us14');
-$resource = 'lists'; //this is not yet dynamic. the {id} "the pure number in the url is the list campaigns name". means I still need to put it on variable
+$resource = 'lists/6852212594/members'; //this is not yet dynamic. the {id} "the pure number in the url is the list campaigns name". means I still need to put it on variable
 $exclude = array(
-  "exclude_fields"=>'lists._links,_links'
+  "exclude_fields"=>'members._links,_links'
   );
 
 $result = $MailChimp->get($resource,$exclude);//data result;
@@ -35,7 +35,9 @@ function getMember_fields($data){
 
 
 echo "<pre>";
-var_export($result); //example of the function call
+$arr = getMember_fields($result); //example of the function call
+dd($arr);
+//dd($result);
 echo "</pre>";
 
 ?>

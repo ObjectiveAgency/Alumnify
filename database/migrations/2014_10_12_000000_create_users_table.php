@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('company');
             $table->string('image')->default('user-default.png');
             $table->rememberToken();
+            $table->string('OAuth');
             $table->timestamps();
         });
     }

@@ -2,14 +2,16 @@
     code = window.location.href;
     code = code.slice(0,code.indexOf("?"));
     document.cookie = "uri=" + code;
-    //alert(document.cookie);
 </script>
 <?php 
+    if(isset($_COOKIE['uri'])){
+
+
     $uri = $_COOKIE['uri'];
     list(,$code) = explode("=",$_SERVER['REQUEST_URI']);
     $url = "https://login.mailchimp.com/oauth2/token";
     $data = "grant_type=authorization_code&client_id=277274991059&client_secret=c4e402cc790c57ec9fb69081a5bb042e&redirect_uri={$uri}&code={$code}";
-    echo $data;
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -25,7 +27,8 @@
     $response = curl_exec($ch);
    
     curl_close($ch);
-
+    $response = json_decode($response);
    echo "<pre>"; 
-   var_export($response);
+   echo $response->access_token;
    echo "</pre>";
+}
