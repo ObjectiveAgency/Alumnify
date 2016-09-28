@@ -7,8 +7,11 @@ use \DrewM\MailChimp\MailChimp;//mailchimp namespace
 /**
 *the varible $exclude is a @param in mailchimp API please visit(http://developer.mailchimp.com/documentation/mailchimp/guides/get-started-with-mailchimp-api-3/#parameters) for more info
 */
+$user = App\User::find(1);
+echo gettype($user->OAuth);
 
-$MailChimp = new MailChimp('dfd2a41d52f4fef742def6bbc43b78b9-us14');
+
+$MailChimp = new MailChimp($user->OAuth);
 $resource = 'lists/6852212594/members'; //this is not yet dynamic. the {id} "the pure number in the url is the list campaigns name". means I still need to put it on variable
 $exclude = array(
   "exclude_fields"=>'members._links,_links'

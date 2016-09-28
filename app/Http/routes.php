@@ -44,16 +44,8 @@ Route::post('/settings/update/email', 'SettingsController@changeEmail');
 
 Route::post('/settings/update/password', 'SettingsController@changePass');
 
-Route::get('accounts',function(){
+Route::get('OAuth','Oauth@oauthShake');
 
-$accounts = App\User::find(1);
-echo dd($accounts->Oauth);
-});
-
-
-Route::get('/OAuth',function(){
-	return view('OAuth/OAuth');
-});
 // members trial function
 Route::get('{loc}', function($loc){
 	return view('MP.'.$loc);
