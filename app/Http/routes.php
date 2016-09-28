@@ -28,6 +28,8 @@ Route::get('/subscribers', 'SubscriberController@index');
 
 // connections routes
 Route::get('/connections', 'ConnectionController@index');
+
+Route::get('/connections/add', 'ConnectionController@oauthShake');
 //<<<<<<< Updated upstream
 
 // profile routes
@@ -43,8 +45,6 @@ Route::get('/settings', 'SettingsController@index');
 Route::post('/settings/update/email', 'SettingsController@changeEmail');
 
 Route::post('/settings/update/password', 'SettingsController@changePass');
-
-Route::get('OAuth','Oauth@oauthShake');
 
 // members trial function
 Route::get('{loc}', function($loc){
