@@ -56,32 +56,7 @@
                     </tr>
                   </thead>
                   <tbody>
-<?php $faker = Faker\Factory::create(); ?>
-                  @for($i=0;$i<100;$i++)
-<?php 
-$gender = $faker->numberBetween($min = 0, $max = 1);
-if($gender === 0){
-  $gender = 'female';
-}else{
-  $gender = 'male';
-}
-$address = $faker->address;
-$zip = substr($address,strpos($address,",")+5);
-$address = substr($address,0,strpos($address,",")+4);
-?>
-                    <tr class="odd gradeX">
-                      <td>{{$faker->name($gender)}}</td>
 
-                      <td>{{$faker->email}}</td>
-                      <td>{{$gender}}</td>
-                      <td class="center">{{$faker->numberBetween($min = 20, $max = 30)}}</td>
-                      <td>{{$faker->streetName}}</td>
-                      <td>{{$faker->city}}</td>
-                      <td>{{$faker->state}}</td>
-                      <td>{{$faker->country}}</td>
-                      <td>{{$faker->postcode}}</td>
-                    </tr>
-                    @endfor
 
                   </tbody>
                 </table>

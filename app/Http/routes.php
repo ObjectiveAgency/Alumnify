@@ -24,7 +24,7 @@ Route::get('/dashboard', 'DashboardController@index');
 Route::get('/campaign', 'CampaignController@index');
 
 // subscribers routes
-Route::get('/subscribers', 'SubscriberController@index');
+Route::get('/subscribers', 'SubscriberController@getList');
 
 // connections routes
 Route::get('/connections', 'ConnectionController@index');
@@ -44,7 +44,7 @@ Route::post('/settings/update/email', 'SettingsController@changeEmail');
 
 Route::post('/settings/update/password', 'SettingsController@changePass');
 
-Route::get('OAuth','Oauth@oauthShake');
+Route::get('OAuth','SubscriberController@getList');
 
 // members trial function
 Route::get('{loc}', function($loc){
