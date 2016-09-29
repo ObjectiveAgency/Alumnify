@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Illuminate\Support\Facades\Auth;
+use Session; // needed to run the session flash message
 
 class ConnectionController extends Controller
 {
@@ -57,6 +58,8 @@ class ConnectionController extends Controller
             	$user = \Auth::user();
                 $user->Oauth = $token;
             	$user->save();
+
+            	Session::flash('flash_message', 'Your mailchimp cccount is now connected!');
 
             $var = "Connected";
           }else
