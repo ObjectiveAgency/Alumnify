@@ -20,6 +20,16 @@
   </div>
   
   <div class="main-content">
+
+    @if(Session::has('flash_message'))
+    <div class="row">
+        <div class="col-md-12">
+          <div role="alert" class="alert alert-success alert-dismissible">
+            <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button><span class="icon s7-check"></span>{{ Session::get('flash_message') }}
+          </div>
+      </div>
+    @endif
+
     <div class="row">
       <div class="col-md-4">
         <div class="panel panel-default">
