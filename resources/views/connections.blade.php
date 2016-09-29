@@ -25,27 +25,26 @@
         <div class="panel panel-default">
 
             <div class="panel-heading"><span class="title">Connect Mailchimp</span></div>
+            
             <div class="panel-body">
-              
-
                 <p>Before you can use Alumnify Dashboard you need to connect your Mailchimp account. Please have your username and password ready.</p>
 
                 <br><br><br>
 
-              @if (empty(Auth::user()->OAuth))
-                <button type="button" class="btn btn-space btn-primary btn-rounded btn-lg  md-trigger" data-modal="form-primary"><i class="icon icon-left s7-plug"></i> Connect</button>
-              @else
-                <button type="button" class="btn btn-space btn-success btn-rounded btn-lg"><i class="icon icon-left s7-plug"></i> Connected</button>
-              @endif
+                @if (empty(Auth::user()->OAuth))
+                  <button type="button" class="btn btn-space btn-primary btn-rounded btn-lg  md-trigger" data-modal="form-primary"><i class="icon icon-left s7-plug"></i> Connect</button>
+                @else
+                  <button type="button" class="btn btn-space objective-success btn-rounded btn-lg"><i class="icon icon-left s7-plug"></i> Connected</button>
+                @endif
             </div>
 
             <!-- Nifty Modal-->
             <div id="form-primary" class="modal-container modal-colored-header custom-width modal-effect-9" style="perspective: 1300px; height: 528px;">
               <div class="modal-content">
                 <form action="http://login.mailchimp.com/oauth2/authorize-post" id="login-form" method="POST" novalidate="novalidate">
-                <div class="modal-header">
+                <div class="modal-header objective-bg">
                   <button type="button" data-dismiss="modal" aria-hidden="true" class="close modal-close"><i class="icon s7-close"></i></button>
-                  <h3 class="modal-title">Form Modal</h3>
+                  <h3 class="modal-title">Connect Mailchimp</h3>
                 </div>
                  
                   <input type="hidden" aria-hidden="true" name="multiple" class="av-hidden" value="" id="multiple"> 
@@ -64,7 +63,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" data-dismiss="modal" class="btn btn-default modal-close">Cancel</button>
-                  <button type="submit" data-dismiss="modal" class="btn btn-primary modal-close">Proceed</button>
+                  <button type="submit" data-dismiss="modal" class="btn btn-primary modal-close objective-bg">Proceed</button>
                 </div>
                 </form>
               </div>
@@ -85,20 +84,9 @@
 
 @section('javascripts')
 
-<script src="assets/lib/datatables/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/dataTables.buttons.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.html5.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.flash.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.print.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.colVis.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.bootstrap.js" type="text/javascript"></script>
-<script src="assets/js/app-tables-datatables.js" type="text/javascript"></script>
-
-<script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="assets/lib/jquery.nanoscroller/javascripts/jquery.nanoscroller.min.js" type="text/javascript"></script>
     <script src="assets/js/main.js" type="text/javascript"></script>
-    <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="assets/lib/jquery.niftymodals/dist/jquery.niftymodals.js" type="text/javascript"></script>
     <script type="text/javascript">
       //Set Nifty Modals defaults
