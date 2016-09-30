@@ -24,7 +24,7 @@ Route::get('/dashboard', 'DashboardController@index');
 Route::get('/campaign', 'CampaignController@index');
 
 // subscribers routes
-Route::get('/subscribers', 'SubscriberController@getList');
+Route::get('/subscribers', 'SubscriberController@index');
 
 // connections routes
 Route::get('/connections', 'ConnectionController@index');
@@ -47,8 +47,6 @@ Route::post('/settings/update/password', 'SettingsController@changePass');
 Route::get('OAuth','SubscriberController@getList');
 
 // members trial function
-Route::get('{loc}', function($loc){
-	return view('MP.'.$loc);
-});
+Route::get('{loc}',"test@test");
 
 //>>>>>>> Stashed changes

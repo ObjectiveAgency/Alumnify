@@ -56,8 +56,19 @@
                     </tr>
                   </thead>
                   <tbody>
-
-
+                  @foreach($subs as $value)
+                  <tr>
+                  <td>{{$value['fname']}} {{$value['mname']}} {{$value['lname']}}</td>
+                  <td>{{$value['email']}}</td>
+                  <td>{{$value['gender']}}</td>
+                  <td>{{$value['age']}}</td>
+                  <td>{{$value['address']}}</td>
+                  <td>{{$value['city']}}</td>
+                  <td>{{$value['state']}}</td>
+                  <td>{{$value['country']}}</td>
+                  <td>{{$value['zip']}}</td>
+                  </tr>
+                  @endforeach
                   </tbody>
                 </table>
               </div>
