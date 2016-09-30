@@ -53,4 +53,10 @@ class Oauth extends Controller
 
     	return view('MP/test',['var'=>$var]);
     }
+
+
+}
+
+
+
 }
