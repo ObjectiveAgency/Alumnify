@@ -48,16 +48,15 @@ Route::post('/settings/update/password', 'SettingsController@changePass');
 
 Route::get('OAuth','SubscriberController@getList');
 
-<<<<<<< HEAD
+
 
 
 
 Route::get('{loc}', function($loc){
 	return view('MP.'.$loc);
 });
-=======
+
 // members trial function
 Route::get('{loc}',"test@test");
->>>>>>> devbranch
 
 
