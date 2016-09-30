@@ -28,6 +28,8 @@ Route::get('/subscribers', 'SubscriberController@getList');
 
 // connections routes
 Route::get('/connections', 'ConnectionController@index');
+
+Route::get('/connections/add', 'ConnectionController@oauthShake');
 //<<<<<<< Updated upstream
 
 // profile routes
@@ -44,9 +46,13 @@ Route::post('/settings/update/email', 'SettingsController@changeEmail');
 
 Route::post('/settings/update/password', 'SettingsController@changePass');
 
+<<<<<<< HEAD
 Route::get('OAuth','SubscriberController@getList');
 
 
+=======
+// members trial function
+>>>>>>> 09ceb4565ea0989989535b25ceda81ee29cb308b
 Route::get('{loc}', function($loc){
 	return view('MP.'.$loc);
 });

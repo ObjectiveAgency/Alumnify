@@ -19714,4 +19714,13 @@ div.dataTables_wrapper div.dataTables_length label select {
   }
 }
 
-/*============== styles customed ================*/
+/*============== styles custom and overrieds ================*/
+.objective-bg{
+  background-color: #4ac6e0!important;
+  border-color: #4ac6e0!important;
+}
+.objective-success{
+  background-color: #78e04b!important;
+  border-color: #78e04b!important;
+  color: #fff!important;
+}
