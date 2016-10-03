@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 
+<<<<<<< HEAD
 class SubscriberController extends Controller
 {	
 	// public function __construct(test $test){
@@ -17,18 +18,25 @@ class SubscriberController extends Controller
     	dd($test->getData('campaigns'));
     	$subs = \App\subscribers::all();
         return view('subscribers.index',['subs'=>$subs]);
+=======
+
+class SubscriberController extends Controller
+{
+
+    public function index(ApiWrapper $wrapper){
+
+    	// $dd = $wrapper->getData('lists');
+    	// $subs = \App\subscribers::all();
+        // return view('subscribers.index',['subs'=>$subs]);
+        dd($wrapper->getData('lists'));
+>>>>>>> 76b3894d4b0e70a284782185f926f89dc12a791e
 
     }
 
     public function store(Request $request){
-	    $this->validate($request, [
-	        'fname' => 'required|max:255',
-	    ]);
+	    
 	
 	    // Create The Task...
 	}
-
-	
-
 
 }

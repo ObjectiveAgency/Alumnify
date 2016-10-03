@@ -8,8 +8,10 @@ use App\Http\Requests;
 
 use \DrewM\MailChimp\MailChimp;
 
-class test extends Controller
-{ use wrapperMethod;
+class ApiWrapper extends Controller
+{ 
+    use ApiWrapperMethod;
+
     public function test(){
     	// $res = 'lst/1234';
     	// $res = explode("/",$res);
@@ -34,7 +36,11 @@ class test extends Controller
     }
 }
 
+<<<<<<< HEAD:app/Http/Controllers/test.php
 trait wrapperMethod{
+=======
+trait ApiWrapperMethod {
+>>>>>>> 76b3894d4b0e70a284782185f926f89dc12a791e:app/Http/Controllers/ApiWrapper.php
 
 	public function addCamp($camp = array() ){
 
