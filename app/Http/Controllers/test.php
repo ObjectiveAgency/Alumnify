@@ -22,8 +22,8 @@ class test extends Controller
     	// $subs = \App\subscribers::all();
     	
     	// dd($subs[0][$key]);
-    	$this->addList($this->getData('lists'));
-    	//$this->addSubs();
+
+    	$this->addCamp($this->getData('campaigns'));
     	
     	//dd($subs);
     	
@@ -33,6 +33,22 @@ class test extends Controller
     }
 }
 trait wrapperMethod{
+
+	public function addCamp($camp = array() ){
+
+    	foreach ($camp['campaigns'] as $value){
+    		$camp = new \App\campaigns;
+			$camp::firstOrCreate(array(
+									'id' => $value['id'],
+									'name'=>$value['settings']['title'],
+									'status'=>$value['status'],
+									'email_sent'=>$value['emails_sent'],
+									'list_id'=>$value['recipients']['list_id'],
+									));	
+    	}
+    	
+    }
+
 
     public function getData($resource){
         $Oauthkey = \Auth::User()->OAuth;
@@ -70,7 +86,6 @@ trait wrapperMethod{
 	    	
 	    	$id = $list[$i]->id;
 	    	$result = array_merge_recursive($this->getData("lists/$id/members"),$result);
-
 	     	$i++;
     	}
 		if(!empty($result)){//check if result is empty
@@ -101,7 +116,7 @@ trait wrapperMethod{
 		}
     }
 
-
+    
 
 
 }
