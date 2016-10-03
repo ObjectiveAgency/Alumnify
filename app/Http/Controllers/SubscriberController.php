@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 
-use wrapperMethod;
-
 class SubscriberController extends Controller
-{
-    public function index(){
-
+{	
+	// public function __construct(test $test){
+	// 	$this->test = $test;
+	// }
+    public function index(test $test){
+    	dd($test->getData('campaigns'));
     	$subs = \App\subscribers::all();
         return view('subscribers.index',['subs'=>$subs]);
 

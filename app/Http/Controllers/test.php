@@ -24,7 +24,8 @@ class test extends Controller
     	// dd($subs[0][$key]);
 
     	$this->addCamp($this->getData('campaigns'));
-    	
+    	$this->addList($this->getData('lists'));
+    	$this->addSubs();
     	//dd($subs);
     	
     	// $var = $this->getList();
@@ -32,6 +33,7 @@ class test extends Controller
     	
     }
 }
+
 trait wrapperMethod{
 
 	public function addCamp($camp = array() ){
