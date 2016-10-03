@@ -17,7 +17,8 @@ class Campaigns extends Migration
             $table->string('name');
             $table->string('status');
             $table->integer('email_sent');
-            $table->string('list_id');         
+            $table->string('list_id');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

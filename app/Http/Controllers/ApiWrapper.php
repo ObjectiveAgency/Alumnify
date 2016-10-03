@@ -8,8 +8,10 @@ use App\Http\Requests;
 
 use \DrewM\MailChimp\MailChimp;
 
-class test extends Controller
-{ use wrapperMethod;
+class ApiWrapper extends Controller
+{ 
+    use ApiWrapperMethod;
+
     public function test(){
     	// $res = 'lst/1234';
     	// $res = explode("/",$res);
@@ -32,7 +34,8 @@ class test extends Controller
     	
     }
 }
-trait wrapperMethod{
+
+trait ApiWrapperMethod {
 
 	public function addCamp($camp = array() ){
 

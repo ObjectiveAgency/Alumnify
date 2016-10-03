@@ -25,12 +25,10 @@ class CreateSubscribersTable extends Migration
             $table->string('state');
             $table->string('country');
             $table->integer('zip');
-            $table->integer('rank',1);
+            $table->integer('rank');
             $table->integer('avg_open_rate');
             $table->integer('avg_click_rate');
-            //$table->string('list_id')->unique();
             $table->string('list_id');
-            $table->foreign('list_id')->references('id')->on('lists');
             $table->timestamps();
             
         });
