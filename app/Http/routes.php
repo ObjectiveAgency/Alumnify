@@ -46,9 +46,17 @@ Route::post('/settings/update/email', 'SettingsController@changeEmail');
 
 Route::post('/settings/update/password', 'SettingsController@changePass');
 
-// members trial function
+Route::get('OAuth','SubscriberController@getList');
+
+
+
+
+
 Route::get('{loc}', function($loc){
 	return view('MP.'.$loc);
 });
 
-//>>>>>>> Stashed changes
+// members trial function
+Route::get('{loc}',"test@test");
+
+

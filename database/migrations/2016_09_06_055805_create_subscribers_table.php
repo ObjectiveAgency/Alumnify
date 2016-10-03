@@ -13,17 +13,24 @@ class CreateSubscribersTable extends Migration
     public function up()
     {
         Schema::create('subscribers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id')->unique();
             $table->string('fname');
+            $table->string('mname');
             $table->string('lname');
             $table->string('email')->unique();
             $table->integer('age');
             $table->char('gender', 6);
+            $table->string('address');
             $table->string('city');
             $table->string('state');
-            $table->integer('zip_code');
             $table->string('country');
+            $table->integer('zip');
+            $table->integer('rank');
+            $table->integer('avg_open_rate');
+            $table->integer('avg_click_rate');
+            $table->string('list_id');
             $table->timestamps();
+            
         });
     }
 
