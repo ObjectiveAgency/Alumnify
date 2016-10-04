@@ -15,48 +15,53 @@
 Route::get('/', 'LandingController@index');
 
 // authentication routes
-Route::auth();
+Route::group(['middleware' => 'auth'], function () {
+   
+	// dashboard routes
+	Route::get('/dashboard', 'DashboardController@index');
+	
+	// campaign routes
+	Route::get('/campaign', 'CampaignController@index');
+	
+	// subscribers routes
+	Route::get('/subscribers', 'SubscriberController@lists');
+	Route::get('/subscribers/{listId}', 'SubscriberController@listSubscribers');
+	
+	// connections routes
+	Route::get('/connections', 'ConnectionController@index');
+	
+	Route::get('/connections/add', 'ConnectionController@oauthShake');
+	//<<<<<<< Updated upstream
+	
+	// profile routes
+	Route::get('/profile', 'ProfileController@index');
+	
+	Route::post('/profile/update', 'ProfileController@update');
+	
+	Route::post('/profile/update/image', 'ProfileController@updateImage');
+	
+	// settings routes
+	Route::get('/settings', 'SettingsController@index');
+	
+	Route::post('/settings/update/email', 'SettingsController@changeEmail');
+	
+	Route::post('/settings/update/password', 'SettingsController@changePass');
+	
+	Route::get('OAuth','SubscriberController@getList');
+	
+	
+	
+	
+	
+	Route::get('{loc}', function($loc){
+		return view('MP.'.$loc);
+	});
+	
+	// members trial function
+	Route::get('{loc}',"test@test");
 
-// dashboard routes
-Route::get('/dashboard', 'DashboardController@index');
-
-// campaign routes
-Route::get('/campaign', 'CampaignController@index');
-
-// subscribers routes
-Route::get('/subscribers', 'SubscriberController@index');
-
-// connections routes
-Route::get('/connections', 'ConnectionController@index');
-
-Route::get('/connections/add', 'ConnectionController@oauthShake');
-//<<<<<<< Updated upstream
-
-// profile routes
-Route::get('/profile', 'ProfileController@index');
-
-Route::post('/profile/update', 'ProfileController@update');
-
-Route::post('/profile/update/image', 'ProfileController@updateImage');
-
-// settings routes
-Route::get('/settings', 'SettingsController@index');
-
-Route::post('/settings/update/email', 'SettingsController@changeEmail');
-
-Route::post('/settings/update/password', 'SettingsController@changePass');
-
-Route::get('OAuth','SubscriberController@getList');
-
-
-
-
-
-Route::get('{loc}', function($loc){
-	return view('MP.'.$loc);
 });
 
-// members trial function
-Route::get('{loc}',"test@test");
+	
 
 

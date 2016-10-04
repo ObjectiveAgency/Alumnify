@@ -19719,6 +19719,10 @@ div.dataTables_wrapper div.dataTables_length label select {
   background-color: #4ac6e0!important;
   border-color: #4ac6e0!important;
 }
+.modal-colored-header-objective .modal-header{
+  background-color: #4ac6e0!important;
+}
+
 .objective-success{
   background-color: #78e04b!important;
   border-color: #78e04b!important;

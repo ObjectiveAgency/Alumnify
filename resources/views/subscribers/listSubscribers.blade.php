@@ -34,20 +34,29 @@
             <div class="col-sm-12">
               <div class="widget widget-fullwidth widget-small">
                 <div class="widget-head">
-                  <div class="title">All Subscribers</div>
+                  <div class="title">{{ $listName }}</div>
                 </div>
                 <table id="table1" class="table table-striped table-hover table-fw-widget">
                   <thead>
                     <tr>
-                      <th>Rendering engine</th>
-                      <th>Browser</th>
-                      <th>Platform(s)</th>
-                      <th>Engine version</th>
-                      <th>CSS grade</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                      <th>Age</th>
+                      <th>Gender</th>
+                      <th>Address</th>
+                      <th>City</th>
+                      <th>State</th>
+                      <th>Country</th>
+                      <th>Zip Code</th>
                     </tr>
                   </thead>
                   <tbody>
-                    
+                    @foreach ($subscribers as $subscriber)
+                      <tr>
+                        <td><a href="/subscribers/{{$subscriber->id}}">{{ $subscriber->fname }}</a></td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
