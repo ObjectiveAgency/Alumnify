@@ -13,15 +13,15 @@
   <div class="page-head">
     <div class="row">
       <div class="col-md-6">
-        <h2>Subscribers</h2>
-        <p>This is the list of everyone on your mailing list.</p>
+        <h2>Subscriber Profile</h2>
+        <p></p>
       </div>
 
       <div class="col-md-6">
         <br><br>
         <div class="pull-right">
-          <button class="btn btn-primary btn-lg  md-trigger" data-toggle="modal" data-target="#md-colored" type="button">Add Subscriber</button>
-          <button type="button" class="btn btn-alt1 btn-lg">Upload CSV</button>
+          <button class="btn btn-primary btn-lg  md-trigger" data-toggle="modal" data-target="#md-colored" type="button">Delete Subscriber</button>
+          <a href="button" class="btn btn-alt1 btn-lg">Back</a>
         </div>
       </div>
 
@@ -31,39 +31,14 @@
   
 <div class="main-content">
           <div class="row">
-            <div class="col-sm-12">
-              <div class="widget widget-fullwidth widget-small">
-                <div class="widget-head">
-                  <div class="title"> {{$listName}} </div>
-                </div>
-                <table id="table1" class="table table-striped table-hover table-fw-widget">
-                  <thead>
-                    <tr>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Age</th>
-                      <th>Gender</th>
-                      <th>Rank</th>
-                      <th>&nbsp;</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($subscribers as $subscriber)
-
-                      <tr>
-                        <td>{{$subscriber->fname}}</td>
-                        <td>{{$subscriber->lname}}</td>
-                        <td>{{$subscriber->age}}</td>
-                        <td>{{$subscriber->gender}}</td>
-                        <td>{{$subscriber->rank}}</td>
-                        <td><a href="/subscribers/{{$subscriber->list_id}}/{{$subscriber->id}}">Details</a></td>
-                      </tr>
-
-                    @endforeach
-                  </tbody>
-                </table>
-              </div>
+            <div class="col-md-6">
+              
             </div>
+
+            <div class="col-md-6">
+              
+            </div>
+            
           </div>
 </div>
 

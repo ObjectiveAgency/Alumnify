@@ -7,15 +7,15 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="assets/img/favicon.png">
     <title>Alumnify</title>
-    <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/lib/jquery.nanoscroller/css/nanoscroller.css"/><!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="/assets/lib/stroke-7/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/lib/jquery.nanoscroller/css/nanoscroller.css"/><!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
     @yield('css')
 
-    <link rel="stylesheet" href="assets/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css"/>
   </head>
   <body>
     <div class="am-wrapper">
@@ -50,7 +50,7 @@
 
           <div id="am-navbar-collapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right am-user-nav">
-              <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">{{ Auth::user()->name }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="assets/img/uploads/{{ Auth::user()->image }}"><span class="user-name">Samantha Amaretti</span><span class="angle-down s7-angle-down"></span></a>
+              <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">{{ Auth::user()->name }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/assets/img/uploads/{{ Auth::user()->image }}"><span class="user-name">Samantha Amaretti</span><span class="angle-down s7-angle-down"></span></a>
                 <ul role="menu" class="dropdown-menu">
                   <li><a href="{{ url('/profile') }}"> <span class="icon s7-user"></span>My profile</a></li>
                   <li><a href="{{ url('/settings') }}"> <span class="icon s7-config"></span>Settings</a></li>
@@ -72,11 +72,11 @@
           <ul class="sidebar-elements">
 
           @if( ! empty(Auth::user()->OAuth))
-            <li class="parent {{ Request::is('dashboard') ? 'active' : '' }}"><a href="/dashboard"><i class="icon s7-graph1"></i><span>Dashboard</span></a></li>
-            <li class="parent {{ Request::is('campaign') ? 'active' : '' }}"><a href="/campaign"><i class="icon s7-speaker"></i><span>Campaigns</span></a></li>
-            <li class="parent {{ Request::is('subscribers') ? 'active' : '' }}"><a href="/subscribers"><i class="icon s7-users"></i><span>Subscribers</span></a></li>
+            <li class="parent {{ Request::is('dashboard*') ? 'active' : '' }}"><a href="/dashboard"><i class="icon s7-graph1"></i><span>Dashboard</span></a></li>
+            <li class="parent {{ Request::is('campaign*') ? 'active' : '' }}"><a href="/campaign"><i class="icon s7-speaker"></i><span>Campaigns</span></a></li>
+            <li class="parent {{ Request::is('subscribers*') ? 'active' : '' }}"><a href="/subscribers"><i class="icon s7-users"></i><span>Subscribers</span></a></li>
           @endif
-            <li class="parent {{ Request::is('connections') ? 'active' : '' }}"><a href="/connections"><i class="icon s7-plug"></i><span>Connections</span></a></li>
+            <li class="parent {{ Request::is('connections*') ? 'active' : '' }}"><a href="/connections"><i class="icon s7-plug"></i><span>Connections</span></a></li>
           </ul>
           <!--Sidebar bottom content-->
         </div>
@@ -93,10 +93,10 @@
 
       
 
-    <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-    <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="assets/lib/jquery.nanoscroller/javascripts/jquery.nanoscroller.min.js" type="text/javascript"></script>
-    <script src="assets/js/main.js" type="text/javascript"></script>
+    <script src="/assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="/assets/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/assets/lib/jquery.nanoscroller/javascripts/jquery.nanoscroller.min.js" type="text/javascript"></script>
+    <script src="/assets/js/main.js" type="text/javascript"></script>
     
 
     @yield('javascripts')
