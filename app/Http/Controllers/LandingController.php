@@ -6,10 +6,17 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
+
 class LandingController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+    	if (Auth::check()) {
+        	return redirect('/dashboard');
+    	}else{
+    		return view('welcome');
+    	}
+        
     }
 }

@@ -70,9 +70,12 @@
         <div class="content">
           <div class="am-logo"></div>
           <ul class="sidebar-elements">
+
+          @if( ! empty(Auth::user()->OAuth))
             <li class="parent {{ Request::is('dashboard') ? 'active' : '' }}"><a href="/dashboard"><i class="icon s7-graph1"></i><span>Dashboard</span></a></li>
             <li class="parent {{ Request::is('campaign') ? 'active' : '' }}"><a href="/campaign"><i class="icon s7-speaker"></i><span>Campaigns</span></a></li>
             <li class="parent {{ Request::is('subscribers') ? 'active' : '' }}"><a href="/subscribers"><i class="icon s7-users"></i><span>Subscribers</span></a></li>
+          @endif
             <li class="parent {{ Request::is('connections') ? 'active' : '' }}"><a href="/connections"><i class="icon s7-plug"></i><span>Connections</span></a></li>
           </ul>
           <!--Sidebar bottom content-->

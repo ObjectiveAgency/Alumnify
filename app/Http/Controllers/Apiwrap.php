@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use \DrewM\MailChimp\MailChimp;
 
+use Illuminate\Support\Facades\Auth;
+
 class Apiwrap extends Controller
 { use ApiWrapperMethod;
   
@@ -79,9 +81,14 @@ trait ApiWrapperMethod {
 
     public function addList($list = array()){
     	
-    	foreach ($list['lists'] as $value) {    	
+    	
+    	foreach ($list['lists'] as $value) {
+
     	$list = new \App\lists;
-    	$list::firstOrCreate(array('id' => $value['id'],'name'=>$value['name']));
+    	$userId=Auth::user()->id;
+    	
+    	$list::firstOrCreate(array('id' => $value['id'],'user_id'=>$userId,'name'=>$value['name']));
+
     	//if($list->id = $value['id'])continue;
     	// $list->id = $value['id'];
     	// $list->name = $value['name'];
@@ -116,7 +123,7 @@ trait ApiWrapperMethod {
 
 	    		$subs->id = $value['id'];
 	    		$subs->email = $value['email_address'];
-	    		$subs->status = $value['status'];   		
+	    		// $subs->status = $value['status'];   		
 	    		$subs->avg_open_rate = $value['stats']['avg_open_rate'];
 	    		$subs->avg_click_rate = $value['stats']['avg_click_rate'];
 	    		$subs->rank = $value['member_rating'];
@@ -128,6 +135,7 @@ trait ApiWrapperMethod {
 	    	}
 
 		}
+		return $result;
     }
 
 
