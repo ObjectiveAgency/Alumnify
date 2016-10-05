@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 class Oauth extends Controller
 {
-    public function oauthShake(){
+    public function oauthShake(Apiwrap $api){
 
         if(!empty($_REQUEST['code'])){
                 
@@ -45,13 +45,14 @@ class Oauth extends Controller
                 $user->Oauth = $token;
             	$user->save();
 
-            $var = "Connected";
+                $api->addDatabase();
+
           }else
             {
             $var = "Connection was unsuccessful";
                  }
 
-    	return view('MP/test',['var'=>$var]);
+    	return redirect('SubscriberController@index');
     }
 
 

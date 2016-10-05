@@ -10,10 +10,43 @@ use \DrewM\MailChimp\MailChimp;
 
 class Apiwrap extends Controller
 { use ApiWrapperMethod;
-    //
+  
 }
 trait ApiWrapperMethod {
 
+	public function addDatabase(){
+		        $this->addList($this->getData('lists'));
+                $this->addSubs(\App\lists::all());
+                $this->addCamp($this->getData('campaigns'));
+                $this->addRep($this->getData('reports'));
+	}
+	 public function addRep($rep = array()){
+    	foreach ($rep['reports'] as $key => $value){
+     		$rep = new \App\Reports;
+    		$rep::firstOrCreate([
+    			'id'=> $value['id'],
+    			'campaign'=> $value['campaign_title'],
+    			'list_id'=> $value['list_id'],
+    			'emails_sent'=> $value['emails_sent'],
+    			'abuse_reports'=> $value['abuse_reports'],
+    			'unsubscribe'=> $value['unsubscribed'],
+    			'hard_bounce'=> $value['bounces']['hard_bounces'],
+    			'soft_bounce'=> $value['bounces']['soft_bounces'],
+    			'opens_total'=> $value['opens']['opens_total'],
+    			'unique_opens'=> $value['opens']['unique_opens'],
+    			'open_rate'=> $value['opens']['unique_opens'],
+    			'clicks_total'=> $value['clicks']['clicks_total'],
+    			'unique_clicks'=> $value['clicks']['unique_clicks'],
+    			'unique_subscriber_clicks'=> $value['clicks']['unique_subscriber_clicks'],
+    			'click_rate'=> $value['clicks']['click_rate'],
+    			'click_rate'=> $value['clicks']['click_rate'],
+    			'sub_rate'=> $value['list_stats']['sub_rate'],
+    			'unsub_rate'=> $value['list_stats']['unsub_rate'],
+    			'list_open_rate'=> $value['list_stats']['open_rate'],
+    			'list_click_rate'=> $value['list_stats']['click_rate'],
+    			]);
+    			}		
+    }
 
 	public function addCamp($camp = array() ){
 
@@ -96,6 +129,8 @@ trait ApiWrapperMethod {
 
 		}
     }
+
+
 
     
 

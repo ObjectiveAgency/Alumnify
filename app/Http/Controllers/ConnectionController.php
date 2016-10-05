@@ -11,9 +11,9 @@ use Session; // needed to run the session flash message
 
 class ConnectionController extends Controller
 {
-    public function index()
-    {
-    	
+    public function index(Apiwrap $api)
+    {   if(!empty(\Auth::User()->OAuth)){
+        $api->addDatabase();}
         return view('connections');
     }
 
@@ -49,13 +49,13 @@ class ConnectionController extends Controller
                 curl_close($ch);
 
                // dd($response);
-                $token = $response->access_token;
-
-    
+                
+                $token = $response->access_token;  
 
                 //add Token to database; should be converted to function
                 
-            	$user = \Auth::user();
+            	$user = \Auth::User();
+                //dd($user);
                 $user->Oauth = $token;
             	$user->save();
 

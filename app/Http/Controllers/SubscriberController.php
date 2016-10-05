@@ -15,7 +15,8 @@ class SubscriberController extends Controller
 	//  	$this->test = $test;
 	//  }
 	public function index(Apiwrap $test){
-    	dd($test->getData('campaigns'));
+    	//dd($test->getData('reports'));
+		//dd($test->getData('lists/469ad228d9/members'));
     	$subs = \App\subscribers::all();
         return view('subscribers.index',['subs'=>$subs]);
 
