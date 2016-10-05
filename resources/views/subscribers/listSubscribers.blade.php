@@ -34,7 +34,7 @@
             <div class="col-sm-12">
               <div class="widget widget-fullwidth widget-small">
                 <div class="widget-head">
-                  <div class="title">{{ $listName }}</div>
+                  <div class="title">---</div>
                 </div>
                 <table id="table1" class="table table-striped table-hover table-fw-widget">
                   <thead>
@@ -52,11 +52,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($subscribers as $subscriber)
-                      <tr>
-                        <td><a href="/subscribers/{{$subscriber->id}}">{{ $subscriber->fname }}</a></td>
-                      </tr>
-                    @endforeach
+                    
                   </tbody>
                 </table>
               </div>
