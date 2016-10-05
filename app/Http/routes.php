@@ -13,7 +13,7 @@
 
 
 Route::get('/', 'LandingController@index');
-
+Route::auth();
 // authentication routes
 Route::group(['middleware' => 'auth'], function () {
    
@@ -46,19 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/settings/update/email', 'SettingsController@changeEmail');
 	
 	Route::post('/settings/update/password', 'SettingsController@changePass');
-	
-	Route::get('OAuth','SubscriberController@getList');
-	
-	
-	
-	
-	
-	Route::get('{loc}', function($loc){
-		return view('MP.'.$loc);
-	});
-	
-	// members trial function
-	Route::get('{loc}',"test@test");
+
 
 });
 
