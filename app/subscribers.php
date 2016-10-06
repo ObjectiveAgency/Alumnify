@@ -8,4 +8,8 @@ class subscribers extends Model
 {
     //
     public $incrementing = false;
+
+    protected $fillable = [
+        'name', 'email', 'password','company','image',
+    ];
 }

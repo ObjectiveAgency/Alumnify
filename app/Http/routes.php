@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
 	// subscribers routes
 	Route::get('/subscribers', 'SubscriberController@lists');
 	Route::get('/subscribers/{listId}', 'SubscriberController@listSubscribers');
+	Route::get('/subscribers/{listName}/{subscriberId}', 'SubscriberController@subscriberProfile');
 	
 	// connections routes
 	Route::get('/connections', 'ConnectionController@index');

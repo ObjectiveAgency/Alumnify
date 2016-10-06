@@ -42,12 +42,30 @@ class SubscriberController extends Controller
 	}
 
     public function listSubscribers($listId, Apiwrap $test){
+<<<<<<< HEAD
     	
         $list = \App\lists::where('id', $listId)->get();//get details for the list
         
+=======
+
+        $list = \App\lists::where('id', $listId)->get()->first();//get details for the list
+        // dd($list->name);
+>>>>>>> 8788c61abc1bef750e80817622db187f675ad5f8
         $subscribers = \App\subscribers::where('list_id', $listId)->get();//get subscribers on the list
         // $test->addSubs();
-        return view('subscribers.listSubscribers');
+        return view('subscribers.listSubscribers', [
+            'subscribers' => $subscribers,
+            'listName' => $list->name
+        ]);
+
+    }
+
+    public function subscriberProfile($listId, $id){
+
+        $subscriber = \App\subscribers::find($id);
+
+
+        return view('subscribers.subscriberProfile');
 
     }
 }
