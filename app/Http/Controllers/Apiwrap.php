@@ -17,9 +17,13 @@ class Apiwrap extends Controller
 trait ApiWrapperMethod {
 
 	public function addDatabase(){
+			if(!empty(\App\lists::all()))
 		        $this->addList($this->getData('lists'));
+		    if(!empty(\App\subscribers::all()))
                 $this->addSubs(\App\lists::all());
+            if(!empty(\App\campaigns::all()))
                 $this->addCamp($this->getData('campaigns'));
+            if(!empty(\App\reports::all()))
                 $this->addRep($this->getData('reports'));
 	}
 	 public function addRep($rep = array()){

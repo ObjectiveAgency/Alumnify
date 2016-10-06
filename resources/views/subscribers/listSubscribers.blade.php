@@ -2,7 +2,7 @@
 
 @section('css')
 
-<link rel="stylesheet" type="text/css" href="assets/lib/datatables/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/lib/datatables/css/dataTables.bootstrap.min.css"/>
 
 @endsection
 
@@ -128,15 +128,16 @@
 
 @section('javascripts')
 
-<script src="assets/lib/datatables/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/dataTables.buttons.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.html5.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.flash.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.print.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.colVis.js" type="text/javascript"></script>
-<script src="assets/lib/datatables/plugins/buttons/js/buttons.bootstrap.js" type="text/javascript"></script>
-<script src="assets/js/app-tables-datatables.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/plugins/buttons/js/dataTables.buttons.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/plugins/buttons/js/buttons.html5.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/plugins/buttons/js/buttons.flash.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/plugins/buttons/js/buttons.print.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/plugins/buttons/js/buttons.colVis.js" type="text/javascript"></script>
+<script src="/assets/lib/datatables/plugins/buttons/js/buttons.bootstrap.js" type="text/javascript"></script>
+<script src="/assets/js/app-tables-datatables.js" type="text/javascript"></script>
+<script src="/assets/js/app-tables-datatables.js" type="text/javascript"></script>
 
 <script type="text/javascript">
       

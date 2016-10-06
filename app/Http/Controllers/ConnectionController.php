@@ -12,10 +12,11 @@ use Session; // needed to run the session flash message
 class ConnectionController extends Controller
 {
     public function index(Apiwrap $api)
-    {   if(!empty(\Auth::User()->OAuth)){
-        $api->addDatabase();}
-        return view('connections');
-    }
+    {   
+    if(!empty(\Auth::User()->OAuth)){
+         $api->addDatabase();}
+    return view('connections');
+     }
 
     public function oauthShake(){
 
