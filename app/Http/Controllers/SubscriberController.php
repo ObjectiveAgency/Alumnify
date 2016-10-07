@@ -71,7 +71,7 @@ class SubscriberController extends Controller
 
     }
 
-    public function subscriberInfoUpdate(Request $request, $id){
+    public function subscriberInfoUpdate(Request $request, $id,Apiwrap $api){
 
         $subscriber=\App\subscribers::find($id);
 
@@ -132,7 +132,7 @@ class SubscriberController extends Controller
         }
 
         $subscriber->fill($input)->save();
-
+        $api->updateMembers("lists/$subscriber->list_id/members/$subscriber->id",$subscriber);
         Session::flash('flash_message', 'Profile Updated!');
 
         return redirect()->back();

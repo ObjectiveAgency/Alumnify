@@ -11,10 +11,38 @@ use \DrewM\MailChimp\MailChimp;
 use Illuminate\Support\Facades\Auth;
 
 class Apiwrap extends Controller
-{ use ApiWrapperMethod;
+{ 	public $Oauthkey;
+
+	public function __construct(){
+		$this->Oauthkey = \Auth::User()->OAuth;
+	}
+
+	use ApiWrapperMethod;
   
 }
 trait ApiWrapperMethod {
+	
+	public function updateMembers($resource = string, $data = array()){
+		$update = new MailChimp($this->Oauthkey);
+		$data = [
+			"email_address"=>$data->email,
+            "status"=>$data->status,//subcribed, unsubscribed, cleaned, pending
+            "merge_fields"=>[
+                                "FNAME"=>$data->fname,//first name
+                                "MNAME"=>$data->mname,
+                                "LNAME"=>$data->lname,//last name
+                                "AGE"=>$data->age,
+                                "GENDER"=>$data->gender,
+                                "ADDRESS"=>$data->address,
+                                "CITY"=>$data->city,
+                                "STATE"=>$data->state,
+                                "COUNTRY"=>$data->country,
+                                "ZIP"=>$data->zip
+                 ]
+
+             ];
+			$update->patch($resource,$data);
+	}
 
 	public function addDatabase(){
 			if(empty(\App\lists::all()))
@@ -71,8 +99,8 @@ trait ApiWrapperMethod {
 
 
     public function getData($resource){
-        $Oauthkey = \Auth::User()->OAuth;
-        $getList = new Mailchimp($Oauthkey);
+        
+        $getList = new Mailchimp($this->Oauthkey);
 
         $exclude = explode("/",$resource);
         $exclude = ['exclude_fields'=>$exclude[count($exclude)-1].'._links,_links'];
