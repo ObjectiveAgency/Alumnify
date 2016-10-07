@@ -17,13 +17,13 @@ class Apiwrap extends Controller
 trait ApiWrapperMethod {
 
 	public function addDatabase(){
-			if(!empty(\App\lists::all()))
+			if(empty(\App\lists::all()))
 		        $this->addList($this->getData('lists'));
-		    if(!empty(\App\subscribers::all()))
+		    if(empty(\App\subscribers::all()))
                 $this->addSubs(\App\lists::all());
-            if(!empty(\App\campaigns::all()))
+            if(empty(\App\campaigns::all()))
                 $this->addCamp($this->getData('campaigns'));
-            if(!empty(\App\reports::all()))
+            if(empty(\App\reports::all()))
                 $this->addRep($this->getData('reports'));
 	}
 	 public function addRep($rep = array()){
@@ -127,7 +127,7 @@ trait ApiWrapperMethod {
 
 	    		$subs->id = $value['id'];
 	    		$subs->email = $value['email_address'];
-	    		// $subs->status = $value['status'];   		
+	    		$subs->status = $value['status'];   		
 	    		$subs->avg_open_rate = $value['stats']['avg_open_rate'];
 	    		$subs->avg_click_rate = $value['stats']['avg_click_rate'];
 	    		$subs->rank = $value['member_rating'];

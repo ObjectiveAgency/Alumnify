@@ -144,10 +144,7 @@
 <script src="/assets/lib/datatables/plugins/buttons/js/buttons.colVis.js" type="text/javascript"></script>
 <script src="/assets/lib/datatables/plugins/buttons/js/buttons.bootstrap.js" type="text/javascript"></script>
 <script src="/assets/js/app-tables-datatables.js" type="text/javascript"></script>
-<<<<<<< HEAD
-<script src="/assets/js/app-tables-datatables.js" type="text/javascript"></script>
-=======
->>>>>>> 8788c61abc1bef750e80817622db187f675ad5f8
+
 
 <script type="text/javascript">
       
