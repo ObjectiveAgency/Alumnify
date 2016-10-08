@@ -20,8 +20,8 @@
       <div class="col-md-6">
         <br><br>
         <div class="pull-right">
-          <button class="btn btn-primary btn-lg  md-trigger" data-toggle="modal" data-target="#md-colored" type="button">Add Subscriber</button>
-          <button type="button" class="btn btn-alt1 btn-lg">Upload CSV</button>
+          <!-- <button class="btn btn-primary btn-lg  md-trigger" data-toggle="modal" data-target="#md-colored" type="button">Add Subscriber</button>
+          <button type="button" class="btn btn-alt1 btn-lg">Upload CSV</button> -->
         </div>
       </div>
 

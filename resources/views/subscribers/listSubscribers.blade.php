@@ -77,7 +77,7 @@
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><i class="icon s7-close"></i></button>
         <h3 class="modal-title">Add Subscriber</h3>
       </div>
-      <form role="form" method="POST" action="{{ url('/subscribers/add') }}">
+      <form role="form" method="POST" action="{{ url('/subscriber/add') }}/{{$subscriber->list_id}}">
 
       <div class="modal-body">
         <h4>Here you can manually add a subscriber</h4>
@@ -123,7 +123,7 @@
       
       <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-        <button type="submit" data-dismiss="modal" class="btn btn-objective">Add</button>
+        <button type="submit" class="btn objective-bg">Add</button>
       </div>
 
       </form>

@@ -122,4 +122,9 @@ class SubscriberController extends Controller
 
         return redirect()->back();
     }
+
+    public function subscriberAdd(Request $request, $listId){
+        echo "magaling!";
+    }
+
 }
