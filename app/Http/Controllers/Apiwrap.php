@@ -22,26 +22,42 @@ class Apiwrap extends Controller
 }
 trait ApiWrapperMethod {
 	
-	public function updateMembers($resource = string, $data = array()){
+	public function updateMembers($method = string,$resource = string, $data = array()){
 		$update = new MailChimp($this->Oauthkey);
 		$data = [
 			"email_address"=>$data->email,
             "status"=>$data->status,//subcribed, unsubscribed, cleaned, pending
             "merge_fields"=>[
-                                "FNAME"=>$data->fname,//first name
-                                "MNAME"=>$data->mname,
-                                "LNAME"=>$data->lname,//last name
-                                "AGE"=>$data->age,
-                                "GENDER"=>$data->gender,
-                                "ADDRESS"=>$data->address,
-                                "CITY"=>$data->city,
-                                "STATE"=>$data->state,
-                                "COUNTRY"=>$data->country,
-                                "ZIP"=>$data->zip
+                            "FNAME"=>$data->fname,//first name
+                            "MNAME"=>$data->mname,
+                            "LNAME"=>$data->lname,//last name
+                            "AGE"=>$data->age,
+                            "GENDER"=>$data->gender,
+                            "ADDRESS"=>$data->address,
+                            "CITY"=>$data->city,
+                            "STATE"=>$data->state,
+                            "COUNTRY"=>$data->country,
+                            "ZIP"=>$data->zip
                  ]
 
              ];
-			$update->patch($resource,$data);
+        switch ($method){
+        	case 'del':
+        		$update->delete($resource);
+        		break;
+        	case 'update':
+        		$update->patch($resource,$data);
+        		break;
+        	case 'post':
+        		$update->post($resource,$data);
+        		break;
+        	default:
+        		die("Invalid method receive!");
+        		break;
+        }
+           
+            
+			
 	}
 
 	public function addDatabase(){
