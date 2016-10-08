@@ -13,7 +13,7 @@ class ConnectionController extends Controller
 {
     public function index(Apiwrap $api)
     {   
-    if(!empty(\Auth::User()->OAuth)){
+    if(!empty(Auth::User()->OAuth)){
          $api->addDatabase();}
     return view('connections');
      }
@@ -60,7 +60,7 @@ class ConnectionController extends Controller
                 $user->Oauth = $token;
             	$user->save();
 
-            	Session::flash('flash_message', 'Your mailchimp cccount is now connected!');
+            	Session::flash('flash_message', 'Your mailchimp account is now connected!');
 
             $var = "Connected";
           }else

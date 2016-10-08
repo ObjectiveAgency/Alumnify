@@ -27,9 +27,9 @@ class SubscriberController extends Controller
 
 	}
 
-	public function lists(Apiwrap $test){
+	public function lists(Apiwrap $api){
 
-        // $test->addList($test->getData('lists'));
+        // $api->addSubs($api->getData('lists'));
 
         $lists = \App\lists::where('user_id', \Auth::user()->id)->get();
 
@@ -138,8 +138,14 @@ class SubscriberController extends Controller
         return redirect()->back();
     }
 
-    public function subscriberAdd(Request $request, $listId){
-        dd($request->all());
+    public function subscriberAdd(Request $request, $listId, Apiwrap $api){
+        $resource='lists/'.$listId.'/members';
+        // dd($listId);
+        $request['mname']="";
+        $api->updateMembers('post',$resource, $request->all());
+        dd($request->input('fname'));
+
+        $api->addSubs($api->getData('lists'));
     }
 
 }

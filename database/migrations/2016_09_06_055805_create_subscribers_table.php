@@ -14,12 +14,10 @@ class CreateSubscribersTable extends Migration
     {
         Schema::create('subscribers', function (Blueprint $table) {
             $table->string('id')->unique();
-            $table->string('status');
             $table->string('fname');
             $table->string('mname');
             $table->string('lname');
             $table->string('email')->unique();
-            $table->string('status');
             $table->integer('age');
             $table->char('gender', 6);
             $table->string('address');
@@ -28,6 +26,7 @@ class CreateSubscribersTable extends Migration
             $table->string('country');
             $table->integer('zip');
             $table->integer('rank');
+            $table->string('status');
             $table->integer('avg_open_rate');
             $table->integer('avg_click_rate');
             $table->string('list_id');

@@ -104,6 +104,10 @@
         </div>
 
         <div class="form-group">
+          <input type="text" placeholder="Address" class="form-control" required name="address">
+        </div>
+
+        <div class="form-group">
           <input type="text" placeholder="City" class="form-control" required name="city">
         </div>
 
@@ -112,11 +116,12 @@
         </div>
 
         <div class="form-group">
-          <input type="text" placeholder="Zip Code" class="form-control" required name="zipCode">
+          <input type="text" placeholder="Zip Code" class="form-control" required name="zip">
         </div>
 
         <div class="form-group">
           <input type="text" placeholder="Country" class="form-control" required name="country">
+          <input type="hidden" name="status" value="subscribed">
         </div>
 
       </div>

@@ -23,6 +23,8 @@ class Apiwrap extends Controller
 trait ApiWrapperMethod {
 	
 	public function updateMembers($method = string,$resource = string, $data = array()){
+		$data = (object) $data;
+		// dd($this->getData($resource));
 		$update = new MailChimp($this->Oauthkey);
 		$data = [
 			"email_address"=>$data->email,
@@ -55,20 +57,28 @@ trait ApiWrapperMethod {
         		die("Invalid method receive!");
         		break;
         }
+
+        dd($update);
            
             
 			
 	}
 
 	public function addDatabase(){
-			if(empty(\App\lists::all()))
+			if(empty(\App\lists::all())){
 		        $this->addList($this->getData('lists'));
-		    if(empty(\App\subscribers::all()))
+			}
+		    if(empty(\App\subscribers::all())){
                 $this->addSubs(\App\lists::all());
-            if(empty(\App\campaigns::all()))
+		    }
+            if(empty(\App\campaigns::all())){
                 $this->addCamp($this->getData('campaigns'));
-            if(empty(\App\reports::all()))
+            }
+            if(empty(\App\reports::all())){
                 $this->addRep($this->getData('reports'));
+            }
+
+            dd(\App\lists::all());
 	}
 	 public function addRep($rep = array()){
     	foreach ($rep['reports'] as $key => $value){
