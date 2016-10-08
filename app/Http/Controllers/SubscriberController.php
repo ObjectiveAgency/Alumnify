@@ -145,9 +145,18 @@ class SubscriberController extends Controller
         // dd($listId);
         $request['mname']="";
         $api->updateMembers('post',$resource, $request->all());
-        dd($request->input('fname'));
 
         $api->addSubs($api->getData('lists'));
+
+        Session::flash('flash_message', 'New subscriber added!');
+
+        return redirect()->back();
+    }
+
+    public function subscriberAddBulk(Request $request, $listId){
+
+        
+        
     }
 
 }

@@ -21,7 +21,7 @@
         <br><br>
         <div class="pull-right">
           <button class="btn btn-primary btn-lg  md-trigger" data-toggle="modal" data-target="#md-colored" type="button">Add Subscriber</button>
-          <button type="button" class="btn btn-alt1 btn-lg">Upload CSV</button>
+          <button type="button" class="btn btn-alt1 btn-lg md-trigger"  data-toggle="modal" data-target="#csvform">Upload CSV</button>
         </div>
       </div>
 
@@ -30,6 +30,17 @@
   </div>
   
 <div class="main-content">
+
+          @if(Session::has('flash_message'))
+          <div class="row">
+              <div class="col-md-12">
+                  <div role="alert" class="alert alert-success alert-dismissible">
+                      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button><span class="icon s7-check"></span>{{ Session::get('flash_message') }}
+                </div>
+              </div>
+          </div>
+          @endif
+
           <div class="row">
             <div class="col-sm-12">
               <div class="widget widget-fullwidth widget-small">
@@ -64,7 +75,7 @@
 
                       @endforeach
                     @else
-                    
+
                     @endif
                   </tbody>
                 </table>
@@ -129,6 +140,37 @@
         <div class="form-group">
           <input type="text" placeholder="Country" class="form-control" required name="country">
           <input type="hidden" name="status" value="subscribed">
+        </div>
+
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn objective-bg">Add</button>
+      </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="csvform" tabindex="-1" role="dialog" class="modal fade modal-colored-header modal-colored-header-objective">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><i class="icon s7-close"></i></button>
+        <h3 class="modal-title">Add Subscriber</h3>
+      </div>
+      <form role="form" method="POST" action="{{ url('/subscriber/add/bulk') }}/{{$list_id}}">
+
+      <div class="modal-body">
+        <h4>Please upload your csv file.</h4>
+        <br><br>
+        {{ csrf_field() }}
+        <div class="form-group">
+          <input type="file" required name="csv">
         </div>
 
       </div>
