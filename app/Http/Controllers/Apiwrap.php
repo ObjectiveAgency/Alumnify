@@ -58,27 +58,26 @@ trait ApiWrapperMethod {
         		break;
         }
 
-        dd($update);
+        //dd($update);
            
             
 			
 	}
 
 	public function addDatabase(){
-			if(empty(\App\lists::all())){
+			if(empty(count(\App\lists::all()))){
 		        $this->addList($this->getData('lists'));
 			}
-		    if(empty(\App\subscribers::all())){
+		    if(empty(count(\App\subscribers::all()))){
                 $this->addSubs(\App\lists::all());
 		    }
-            if(empty(\App\campaigns::all())){
+            if(empty(count(\App\campaigns::all()))){
                 $this->addCamp($this->getData('campaigns'));
             }
-            if(empty(\App\reports::all())){
+            if(empty(count(\App\reports::all()))){
                 $this->addRep($this->getData('reports'));
             }
-
-            dd(\App\lists::all());
+            
 	}
 	 public function addRep($rep = array()){
     	foreach ($rep['reports'] as $key => $value){
