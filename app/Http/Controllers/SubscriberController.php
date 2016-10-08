@@ -139,7 +139,7 @@ class SubscriberController extends Controller
     }
 
     public function subscriberAdd(Request $request, $listId){
-        echo "magaling!";
+        dd($request->all());
     }
 
 }
