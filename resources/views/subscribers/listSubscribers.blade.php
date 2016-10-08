@@ -36,6 +36,7 @@
                 <div class="widget-head">
                   <div class="title"> {{$listName}} </div>
                 </div>
+                
                 <table id="table1" class="table table-striped table-hover table-fw-widget">
                   <thead>
                     <tr>
@@ -48,7 +49,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($subscribers as $subscriber)
+                    @if( count($subscribers) > 0 )
+
+                      @foreach($subscribers as $subscriber)
 
                       <tr>
                         <td>{{$subscriber->fname}}</td>
@@ -59,9 +62,13 @@
                         <td><a href="/subscribers/{{$subscriber->list_id}}/{{$subscriber->id}}">Details</a></td>
                       </tr>
 
-                    @endforeach
+                      @endforeach
+                    @else
+                    
+                    @endif
                   </tbody>
                 </table>
+                
               </div>
             </div>
           </div>
@@ -77,7 +84,7 @@
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><i class="icon s7-close"></i></button>
         <h3 class="modal-title">Add Subscriber</h3>
       </div>
-      <form role="form" method="POST" action="{{ url('/subscriber/add') }}/{{$subscriber->list_id}}">
+      <form role="form" method="POST" action="{{ url('/subscriber/add') }}/{{$list_id}}">
 
       <div class="modal-body">
         <h4>Here you can manually add a subscriber</h4>

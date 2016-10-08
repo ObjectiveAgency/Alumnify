@@ -52,11 +52,21 @@ class SubscriberController extends Controller
         // dd($list->name);
 
         $subscribers = \App\subscribers::where('list_id', $listId)->get();//get subscribers on the list
-        // $test->addSubs();
-        return view('subscribers.listSubscribers', [
-            'subscribers' => $subscribers,
-            'listName' => $list->name
-        ]);
+        // dd(count($subscribers));
+        if (count($subscribers) > 0) {
+            return view('subscribers.listSubscribers', [
+                'subscribers' => $subscribers,
+                'list_id' => $listId,
+                'listName' => $list->name
+            ]);
+        }else{
+            return view('subscribers.listSubscribers', [
+                'subscribers' => $subscribers,
+                'list_id' => $listId,
+                'listName' => $list->name
+            ]);
+        }
+        
 
     }
 
