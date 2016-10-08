@@ -11,9 +11,9 @@
         <div class="main-content">
           <!--+general-chart("classes", "title", "height", "id", "counter value", "counter desc", tools enabled (use true or false))-->
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
               <div class="widget widget-pie">
-                <div class="widget-head"><span class="title">Top Sales</span></div>
+                <div class="widget-head"><span class="title">Most Engaged Customer</span></div>
                 <div class="row chart-container">
                   <div class="col-md-6">
                     <div id="widget-top-1" class="chart"></div>
@@ -23,15 +23,17 @@
                   </div>
                 </div>
                 <div class="row chart-info">
-                  <div class="col-xs-4"><span class="title">New Clients</span><span data-toggle="counter" data-end="180" class="number">0</span></div>
+                  <div class="col-xs-4">
+                  <span class="title">New Clients</span>
+                  <span data-toggle="counter" data-end="180" class="number">0</span></div>
                   <div class="col-xs-4"><span class="title">Total Sales</span><span data-toggle="counter" data-end="500" data-prefix="$" class="number">$0</span></div>
                   <div class="col-xs-4"><span class="title">Refunds</span><span data-toggle="counter" data-end="90" class="number">0</span></div>
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <div class="widget widget-pie">
-                <div class="widget-head"><span class="title">Monthly Visits</span></div>
+                <div class="widget-head"><span class="title">Least Engaged Customer</span></div>
                 <div class="row chart-container">
                   <div class="col-md-6">
                     <div id="widget-top-2" class="chart"></div>
