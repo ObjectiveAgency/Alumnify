@@ -29,7 +29,7 @@ class SubscriberController extends Controller
 	}
 
 	public function lists(Apiwrap $api){
-
+        
         // $api->addSubs($api->getData('lists'));
 
         $lists = \App\lists::where('user_id', \Auth::user()->id)->get();
@@ -145,9 +145,10 @@ class SubscriberController extends Controller
         $resource='lists/'.$listId.'/members';
         // dd($listId);
         $request['mname']="";
+        $api->setkey();
         $api->updateMembers('post',$resource, $request->all());
-
-        $api->addSubs($api->getData('lists'));
+        
+        //$api->addSubs($api->getData('lists'));
 
         Session::flash('flash_message', 'New subscriber added!');
 
