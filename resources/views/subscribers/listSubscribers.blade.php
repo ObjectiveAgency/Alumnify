@@ -163,14 +163,14 @@
         <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><i class="icon s7-close"></i></button>
         <h3 class="modal-title">Add Subscriber</h3>
       </div>
-      <form role="form" method="POST" action="{{ url('/subscriber/add/bulk') }}/{{$list_id}}">
+      <form role="form" method="POST" action="{{ url('/subscriber/add/bulk') }}/{{$list_id}}"  enctype="multipart/form-data">
 
       <div class="modal-body">
         <h4>Please upload your csv file.</h4>
         <br><br>
         {{ csrf_field() }}
         <div class="form-group">
-          <input type="file" required name="csv">
+          <input type="file" required name="csvfile">
         </div>
 
       </div>
