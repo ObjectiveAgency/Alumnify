@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class Apiwrap extends Controller
 { 	public $Oauthkey;
 
-	public function __construct(){
+	public function setkey(){
 		$this->Oauthkey = \Auth::User()->OAuth;
 	}
 
@@ -154,40 +154,50 @@ trait ApiWrapperMethod {
     		}
     }
 
-    public function addSubs(){
-
- 		$list = \App\lists::all();
- 		$i=0;
- 		$result = array();
-
-    	foreach($list as $value ){
-	    	
-	    	$id = $list[$i]->id;
-	    	$result = array_merge_recursive($this->getData("lists/$id/members"),$result);
-	     	$i++;
-    	}
+    public function addSubs($result = null){
+        $key = 'merge_fields';
+        $email = 'email_address';
+        if(empty(count($result))){
+     		$list = \App\lists::all();
+                        
+     		global $result;
+        
+            $result = array();
+        	foreach($list as $value ){
+    	    	
+    	    	$id = $value->id;
+                $this->setkey();
+    	    	$result = array_merge_recursive($this->getData("lists/$id/members"),$result);
+                }
+            $result =$result['members'];
+        }else{
+                $key = 'merges';
+                $email = 'email';
+        }
 		if(!empty($result)){//check if result is empty
-
-	     	foreach($result['members'] as $value){
-
+             // dd($result);
+	     	foreach($result as $value){
+               // dd($value);
 	    		global $subs;
 	    		$subs = new \App\subscribers;
 
-	    		foreach($value['merge_fields'] as $key => $val){
-	    			$key = strtolower($key);
-	    			$subs->$key = $val;
-	    		}
-
+	    		
+                foreach($value[$key] as $key => $val){
+                    $key = strtolower($key);
+                    $subs->$key = $val;
+                }
 	    		$subs->id = $value['id'];
-	    		$subs->email = $value['email_address'];
-	    		$subs->status = $value['status'];   		
+	    		$subs->email = $value[$email];
+                $subs->list_id = $value['list_id'];
+                if($email === 'email'){
+                    $value['status'] = 'subscribed';
+                }
+	    		$subs->status = $value['status'];
+                if($email !== 'email'){                  		
 	    		$subs->avg_open_rate = $value['stats']['avg_open_rate'];
 	    		$subs->avg_click_rate = $value['stats']['avg_click_rate'];
 	    		$subs->rank = $value['member_rating'];
-	    		$subs->list_id = $value['list_id'];
-	    		
-	    		
-	    		$i++;
+	    		} 
 	    		$subs->save();
 	    	}
 
