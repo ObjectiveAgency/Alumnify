@@ -20,7 +20,7 @@
       <div class="col-md-6">
         <br><br>
         <div class="pull-right">
-          <button class="btn btn-primary btn-lg  md-trigger" data-toggle="modal" data-target="#md-colored" type="button">Delete Subscriber</button>
+          <a href="{{ url('/subscriber/delete') }}/{{$subscriber->id}}" class="btn btn-primary btn-lg  md-trigger" >Delete Subscriber</a>
           <a href="{{ url('/subscribers/') }}/{{$subscriber->list_id}}" class="btn btn-alt1 btn-lg">Back</a>
         </div>
       </div>

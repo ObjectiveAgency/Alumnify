@@ -12,7 +12,10 @@ use Session;
 use Excel;
 
 class SubscriberController extends Controller
-{
+{   private $api;
+    public function __construct(){
+        $this->api = new Apiwrap;
+    }
 // public function __construct()
 //     {
 //         $this->middleware('auth');
@@ -20,7 +23,7 @@ class SubscriberController extends Controller
 	// public function __construct(test $test){
 	//  	$this->test = $test;
 	//  }
-	public function index(Apiwrap $test){
+	public function index(){
     	//dd($test->getData('reports'));
 		//dd($test->getData('lists/469ad228d9/members'));
     	$subs = \App\subscribers::all();
@@ -28,10 +31,10 @@ class SubscriberController extends Controller
 
 	}
 
-	public function lists(Apiwrap $api){
+	public function lists(){
         
         // $api->addSubs($api->getData('lists'));
-
+       
         $lists = \App\lists::where('user_id', \Auth::user()->id)->get();
 
         // dd(Auth::user()->id);
@@ -42,7 +45,7 @@ class SubscriberController extends Controller
 
 	}
 
-    public function listSubscribers($listId, Apiwrap $test){
+    public function listSubscribers($listId){
 
     	
         // $list = \App\lists::where('id', $listId)->get();//get details for the list
@@ -53,7 +56,7 @@ class SubscriberController extends Controller
         // dd($list->name);
 
         $subscribers = \App\subscribers::where('list_id', $listId)->get();//get subscribers on the list
-        // dd(count($subscribers));
+        // dd($subscribers);
             return view('subscribers.listSubscribers', [
                 'subscribers' => $subscribers,
                 'list_id' => $listId,
@@ -64,7 +67,7 @@ class SubscriberController extends Controller
     }
 
     public function subscriberProfile($listId, $id){
-
+        $this->api->addSubs();
         $subscriber = \App\subscribers::find($id);
         
 
@@ -74,8 +77,8 @@ class SubscriberController extends Controller
 
     }
 
-    public function subscriberInfoUpdate(Request $request, $id,Apiwrap $api){
-
+    public function subscriberInfoUpdate(Request $request, $id){
+        //dd($id);
         $subscriber=\App\subscribers::find($id);
 
         $input = $request->all();
@@ -135,19 +138,20 @@ class SubscriberController extends Controller
         }
 
         $subscriber->fill($input)->save();
-        $api->updateMembers("lists/$subscriber->list_id/members/$subscriber->id",$subscriber);
+        $this->api->updateMembers('update',
+            "lists/$subscriber->list_id/members/$subscriber->id",
+            $subscriber);
         Session::flash('flash_message', 'Profile Updated!');
 
         return redirect()->back();
     }
 
-    public function subscriberAdd(Request $request, $listId, Apiwrap $api){
+    public function subscriberAdd(Request $request, $listId){
                
         $resource='lists/'.$listId.'/members';
         $request['mname']=""; //set middle name to nothing
 
-        $api->setkey();//set Oauth Key
-        $api->updateMembers('post',$resource, $request->all());
+        $this->api->updateMembers('post',$resource, $request->all());
         
         Session::flash('flash_message', 'New subscriber added!');
 
@@ -155,44 +159,87 @@ class SubscriberController extends Controller
     }
 
     public function subscriberAddBulk(Request $request, $listId){
-
+        $msg = '';
         if ($request->hasFile('csvfile')) {
-            $extension = $request->csvfile->getMimeType();
-            dd($extension);
+            $extension = $request->csvfile->getClientOriginalExtension();
+            // dd($extension);
 
             $path = $request->file('csvfile')->getRealPath();
-            $data = Excel::load($path, function($reader) {})->get();
-            // dd($data);
+            $data = Excel::load($path, function($reader) {
 
-            if(!empty($data) && $data->count()){
+            })->get()->toArray();
+             
 
+            if(!empty(count($data))){
+                $finalData = [
+                            "FNAME",
+                            "MNAME",
+                            "LNAME",
+                            "email_address",
+                            "AGE",
+                            "GENDER",
+                            "ADDRESS",
+                            "CITY",
+                            "STATE",
+                            "COUNTRY",
+                            "ZIP"
+                 ];
+                $tmp1 = []; 
                 foreach ($data as $key => $value) { 
-                    $finalData[] = [
-                        'fname' => $value->fname, 
-                        'mname' => $value->mname,
-                        'lname' => $value->lname,
-                        'email' => $value->email,
-                        'age' => intval($value->age),
-                        'gender' => $value->gender,
-                        'address' => $value->address,
-                        'city' => $value->city,
-                        'state' => $value->state,
-                        'country' => $value->country,
-                        'zip' => intval($value->zip)
-                    ];
-                }
-                dd($finalData);
 
+                        $i=0;
+                        
+                    //$finalData = array_fill_keys($finalData,array_values($value));
+                    // dd($finalData[0]);
+                    foreach($value as $val){
+
+                        $tmp[$finalData[$i]] = $val;
+
+
+                     $i++;
+                         // foreach($finalData as $key => $carry){
+                         //    $finalData[$key] = $val;
+                         //    echo $key;
+
+                         // }
+                    };
+                    
+                    array_push($tmp1,$tmp);
+                    
+                    // $finalData[] = [
+                    //     'fname' => $value->fname, 
+                    //     'mname' => $value->mname,
+                    //     'lname' => $value->lname,
+                    //     'email' => $value->email,
+                    //     'age' => intval($value->age),
+                    //     'gender' => $value->gender,
+                    //     'address' => $value->address,
+                    //     'city' => $value->city,
+                    //     'state' => $value->state,
+                    //     'country' => $value->country,
+                    //     'zip' => intval($value->zip)
+                    // ];
+                }
+                // dd($listId);
+                $this->api->batch($listId,$tmp1);
+                $msg = "Success! CSV data are now Uploaded,\n 
+                        Please reload page to see changes.";
             }else{
-                echo "File contains no data!";
+                $msg = "File contains no data or Invalid CSV header/data format!";
             }
 
 
             
         }else{
-            echo "no file received!";
+            $msg =  "no file received!";
         }
+        Session::flash('flash_message', $msg);
+        return redirect()->back();
         
     }
+
+     public function subscriberDelete($id){
+            dd($id);
+     }
 
 }

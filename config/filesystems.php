@@ -61,6 +61,16 @@ return [
             'region' => 'your-region',
             'bucket' => 'your-bucket',
         ],
+        'disks' => [
+        'local_public' => [
+            'driver' => 'local',
+            'root'   => public_path(),
+        ],
+            'csv' => [
+            'driver' => 'local',
+            'root'   => storage_path().'/csv',
+          ],
+        ],
 
     ],
 

@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/subscribers/{listId}', 'SubscriberController@listSubscribers');
 	Route::get('/subscribers/{listName}/{subscriberId}', 'SubscriberController@subscriberProfile');
 	Route::post('/subscriber/update/{id}', 'SubscriberController@subscriberInfoUpdate');
-	Route::post('/subscriber/delete/{id}', 'SubscriberController@subscriberDelete');
+	Route::get('/subscriber/delete/{id}', 'SubscriberController@subscriberDelete');
 	Route::post('/subscriber/add/{listId}', 'SubscriberController@subscriberAdd');
 	Route::post('/subscriber/add/bulk/{listId}', 'SubscriberController@subscriberAddBulk');
 	
@@ -38,7 +38,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/connections', 'ConnectionController@index');
 	
 	Route::get('/connections/add', 'ConnectionController@oauthShake');
-	//<<<<<<< Updated upstream
 	
 	// profile routes
 	Route::get('/profile', 'ProfileController@index');

@@ -61,7 +61,7 @@
                   </thead>
                   <tbody>
                     @if( count($subscribers) > 0 )
-
+                      
                       @foreach($subscribers as $subscriber)
 
                       <tr>
@@ -170,7 +170,7 @@
         <br><br>
         {{ csrf_field() }}
         <div class="form-group">
-          <input type="file" required name="csvfile">
+          <input type="file" required name="csvfile" accept=".csv">
         </div>
 
       </div>

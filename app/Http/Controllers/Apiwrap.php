@@ -8,12 +8,14 @@ use App\Http\Requests;
 
 use \DrewM\MailChimp\MailChimp;
 
+use \DrewM\MailChimp\Batch;
+
 use Illuminate\Support\Facades\Auth;
 
 class Apiwrap extends Controller
 { 	public $Oauthkey;
 
-	public function setkey(){
+	private function setkey(){
 		$this->Oauthkey = \Auth::User()->OAuth;
 	}
 
@@ -21,11 +23,29 @@ class Apiwrap extends Controller
   
 }
 trait ApiWrapperMethod {
+
+    public function batch($list_id = string,$data = array()){
+        $tmp = [];
+        $this->setkey();
+        $MailChimp = new MailChimp($this->Oauthkey);
+        $Batch = $MailChimp->new_batch();
+        
+        foreach ($data as $value) {
+               $tmp['merge_fields'] = $value;
+               unset($tmp['merge_fields']['email_address']);
+               $tmp['email_address'] = $value['email_address'];
+               $tmp['status'] = 'subscribed';
+               asort($tmp);
+               $Batch->post('',"lists/$list_id/members",$tmp);
+        }
+                
+        $Batch->execute();
+    }
 	
-	public function updateMembers($method = string,$resource = string, $data = array()){
+	public function updateMembers($method = string,$resource = string, $data = object){
 
 		$data = (object) $data;
-		
+		$this->setkey();
 		$update = new MailChimp($this->Oauthkey);
 		$data = [
 			"email_address"=>$data->email,
@@ -176,6 +196,7 @@ trait ApiWrapperMethod {
         }else{
                 $key = 'merges';
                 $email = 'email';
+                $id = 'unique_email_id';
         }
 		if(!empty($result)){
 
@@ -190,7 +211,7 @@ trait ApiWrapperMethod {
                     $subs->$key = $val;
                 }
 
-	    		$subs->id = $value['id'];
+	    		$subs->id = $value[$id];
 	    		$subs->email = $value[$email];
                 $subs->list_id = $value['list_id'];
 
