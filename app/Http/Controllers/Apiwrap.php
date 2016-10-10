@@ -23,8 +23,9 @@ class Apiwrap extends Controller
 trait ApiWrapperMethod {
 	
 	public function updateMembers($method = string,$resource = string, $data = array()){
+
 		$data = (object) $data;
-		// dd($this->getData($resource));
+		
 		$update = new MailChimp($this->Oauthkey);
 		$data = [
 			"email_address"=>$data->email,
@@ -58,7 +59,7 @@ trait ApiWrapperMethod {
         		break;
         }
 
-        //dd($update);
+        
            
             
 			
@@ -141,22 +142,23 @@ trait ApiWrapperMethod {
     	
     	foreach ($list['lists'] as $value) {
 
-    	$list = new \App\lists;
-    	$userId=Auth::user()->id;
-    	
-    	$list::firstOrCreate(array('id' => $value['id'],'user_id'=>$userId,'name'=>$value['name']));
-
-    	//if($list->id = $value['id'])continue;
-    	// $list->id = $value['id'];
-    	// $list->name = $value['name'];
-    	//$list->save();
-    	
-    		}
+        	$list = new \App\lists;
+        	$userId=Auth::user()->id;
+        	
+        	$list::firstOrCreate([
+                'id' => $value['id'],
+                'user_id'=>$userId,
+                'name'=>$value['name']
+            ]);
+  	   	
+    	}
     }
 
     public function addSubs($result = null){
+
         $key = 'merge_fields';
         $email = 'email_address';
+
         if(empty(count($result))){
      		$list = \App\lists::all();
                         
@@ -168,14 +170,15 @@ trait ApiWrapperMethod {
     	    	$id = $value->id;
                 $this->setkey();
     	    	$result = array_merge_recursive($this->getData("lists/$id/members"),$result);
-                }
-            $result =$result['members'];
+
+            }
+                $result =$result['members'];
         }else{
                 $key = 'merges';
                 $email = 'email';
         }
-		if(!empty($result)){//check if result is empty
-             // dd($result);
+		if(!empty($result)){
+
 	     	foreach($result as $value){
                // dd($value);
 	    		global $subs;
@@ -186,23 +189,27 @@ trait ApiWrapperMethod {
                     $key = strtolower($key);
                     $subs->$key = $val;
                 }
+
 	    		$subs->id = $value['id'];
 	    		$subs->email = $value[$email];
                 $subs->list_id = $value['list_id'];
+
                 if($email === 'email'){
                     $value['status'] = 'subscribed';
                 }
+
 	    		$subs->status = $value['status'];
+
                 if($email !== 'email'){                  		
 	    		$subs->avg_open_rate = $value['stats']['avg_open_rate'];
 	    		$subs->avg_click_rate = $value['stats']['avg_click_rate'];
 	    		$subs->rank = $value['member_rating'];
 	    		} 
-	    		$subs->save();
-	    	}
 
-		}
-		return $result;
+	    		$subs->save();
+
+	    	}
+		}	
     }
 
 

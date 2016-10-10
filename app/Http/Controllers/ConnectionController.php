@@ -49,14 +49,12 @@ class ConnectionController extends Controller
                 
                 curl_close($ch);
 
-               // dd($response);
-                
                 $token = $response->access_token;  
 
                 //add Token to database; should be converted to function
                 
             	$user = \Auth::User();
-                //dd($user);
+             
                 $user->Oauth = $token;
             	$user->save();
 

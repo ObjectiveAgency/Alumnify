@@ -24,6 +24,11 @@ class webhookController extends Controller
     		$api = new Apiwrap();
     		$datas=['data'=>$data];
     		$api->addSubs($datas);
-    		});
+    	});
+
+    	Webhook::subscribe('campaign', function($data){
+
+    	});
+
     }
 }

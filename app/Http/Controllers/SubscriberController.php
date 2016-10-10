@@ -65,7 +65,7 @@ class SubscriberController extends Controller
     public function subscriberProfile($listId, $id){
 
         $subscriber = \App\subscribers::find($id);
-        // dd($subscriber);
+        
 
         return view('subscribers.subscriberProfile', [
             'subscriber' => $subscriber
@@ -141,14 +141,13 @@ class SubscriberController extends Controller
     }
 
     public function subscriberAdd(Request $request, $listId, Apiwrap $api){
+               
         $resource='lists/'.$listId.'/members';
-        // dd($listId);
-        $request['mname']="";
-        $api->setkey();
+        $request['mname']=""; //set middle name to nothing
+
+        $api->setkey();//set Oauth Key
         $api->updateMembers('post',$resource, $request->all());
         
-        //$api->addSubs($api->getData('lists'));
-
         Session::flash('flash_message', 'New subscriber added!');
 
         return redirect()->back();
