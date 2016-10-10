@@ -9,6 +9,7 @@ use App\Http\Requests;
 
 use Illuminate\Support\Facades\Auth;
 use Session;
+use Excel;
 
 class SubscriberController extends Controller
 {
@@ -155,7 +156,42 @@ class SubscriberController extends Controller
 
     public function subscriberAddBulk(Request $request, $listId){
 
-        
+        if ($request->hasFile('csvfile')) {
+            $extension = $request->csvfile->getMimeType();
+            dd($extension);
+
+            $path = $request->file('csvfile')->getRealPath();
+            $data = Excel::load($path, function($reader) {})->get();
+            // dd($data);
+
+            if(!empty($data) && $data->count()){
+
+                foreach ($data as $key => $value) { 
+                    $finalData[] = [
+                        'fname' => $value->fname, 
+                        'mname' => $value->mname,
+                        'lname' => $value->lname,
+                        'email' => $value->email,
+                        'age' => intval($value->age),
+                        'gender' => $value->gender,
+                        'address' => $value->address,
+                        'city' => $value->city,
+                        'state' => $value->state,
+                        'country' => $value->country,
+                        'zip' => intval($value->zip)
+                    ];
+                }
+                dd($finalData);
+
+            }else{
+                echo "File contains no data!";
+            }
+
+
+            
+        }else{
+            echo "no file received!";
+        }
         
     }
 
