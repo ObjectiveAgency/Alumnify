@@ -21,7 +21,7 @@ class webhookController extends Controller
     public function post(Apiwrap $api){
 
     	Webhook::subscribe('subscribe', function($data){
-    		$dd($data);
+    		// dd($data);
     		$api = new Apiwrap();
     		$datas=['data'=>$data];
     		$api->addSubs($datas);

@@ -67,7 +67,6 @@ class SubscriberController extends Controller
     }
 
     public function subscriberProfile($listId, $id){
-        $this->api->addSubs();
         $subscriber = \App\subscribers::find($id);
         
 
@@ -150,10 +149,15 @@ class SubscriberController extends Controller
                
         $resource='lists/'.$listId.'/members';
         $request['mname']=""; //set middle name to nothing
-
-        $this->api->updateMembers('post',$resource, $request->all());
         
-        Session::flash('flash_message', 'New subscriber added!');
+        $msg = $this->api->updateMembers('post',$resource, $request->all());
+        if($msg === ""){
+            $msg = 'New subscriber added!';
+            $flash = 'success';
+        }else{
+            $msg = 'Subscribers already exist!';
+        };
+        Session::flash('flash_message',$msg);
 
         return redirect()->back();
     }
@@ -239,7 +243,12 @@ class SubscriberController extends Controller
     }
 
      public function subscriberDelete($id){
-            dd($id);
+            $item = \App\subscribers::find($id);
+            $id = md5($item->email);
+            
+            $this->api->updateMembers("del","lists/$item->/members/$id");
+
+            return redirect()->back();
      }
 
 }

@@ -32,14 +32,23 @@
 <div class="main-content">
 
           @if(Session::has('flash_message'))
+
+          
           <div class="row">
               <div class="col-md-12">
-                  <div role="alert" class="alert alert-success alert-dismissible">
-                      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button><span class="icon s7-check"></span>{{ Session::get('flash_message') }}
+                  <div id="back" role="alert" class="alert alert-success alert-dismissible">
+                      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button><span id="icon" class="icon s7-check"></span>{{ Session::get('flash_message') }}
                 </div>
               </div>
           </div>
           @endif
+          @if(Session::get('flash_message')!=='success')
+          <script type="text/javascript">
+              document.querySelector("div.alert.alert-success.alert-dismissible").className = "alert alert-danger alert-dismissible";
+              document.querySelector("span.icon.s7-check").className = "icon s7-close-circle";
+          </script>
+          @endif
+         
 
           <div class="row">
             <div class="col-sm-12">

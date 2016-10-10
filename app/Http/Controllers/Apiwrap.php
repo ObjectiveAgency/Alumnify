@@ -78,7 +78,8 @@ trait ApiWrapperMethod {
         		die("Invalid method receive!");
         		break;
         }
-
+        list($msg) = explode("Use",$update->getLastError());
+        return $msg;
         
            
             
@@ -145,7 +146,7 @@ trait ApiWrapperMethod {
 
 
     public function getData($resource){
-        
+        $this->setkey();
         $getList = new Mailchimp($this->Oauthkey);
 
         $exclude = explode("/",$resource);
@@ -176,9 +177,9 @@ trait ApiWrapperMethod {
 
     public function addSubs($result = null){
 
-        $key = 'merge_fields';
+        $index = 'merge_fields';
         $email = 'email_address';
-
+        $id = 'unique_email_id';
         if(empty(count($result))){
      		$list = \App\lists::all();
                         
@@ -187,49 +188,58 @@ trait ApiWrapperMethod {
             $result = array();
         	foreach($list as $value ){
     	    	
-    	    	$id = $value->id;
+    	    	$list_id = $value->id;
                 $this->setkey();
-    	    	$result = array_merge_recursive($this->getData("lists/$id/members"),$result);
+    	    	$result = array_merge_recursive($this->getData("lists/$list_id/members"),$result);
 
             }
                 $result =$result['members'];
         }else{
-                $key = 'merges';
+                $index = 'merges';
                 $email = 'email';
-                $id = 'unique_email_id';
+                $id = 'id';
         }
 		if(!empty($result)){
-
+            
 	     	foreach($result as $value){
                // dd($value);
+                
 	    		global $subs;
-	    		$subs = new \App\subscribers;
+                $subs = [];
+	    		//$subs = new \App\subscribers;
 
 	    		
-                foreach($value[$key] as $key => $val){
+                foreach($value[$index] as $key => $val){
                     $key = strtolower($key);
-                    $subs->$key = $val;
+                    $subs[$key] = $val;
                 }
+                
+                $subs += [
 
-	    		$subs->id = $value[$id];
-	    		$subs->email = $value[$email];
-                $subs->list_id = $value['list_id'];
-
+	    		'id' => $value[$id],
+	    		'email' => $value[$email],
+                'list_id' => $value['list_id']
+                ];
                 if($email === 'email'){
                     $value['status'] = 'subscribed';
                 }
 
-	    		$subs->status = $value['status'];
+	    		$subs += ['status' => $value['status']];
 
-                if($email !== 'email'){                  		
-	    		$subs->avg_open_rate = $value['stats']['avg_open_rate'];
-	    		$subs->avg_click_rate = $value['stats']['avg_click_rate'];
-	    		$subs->rank = $value['member_rating'];
+                if($email !== 'email'){
+
+                $subs +=[                  		
+	    		'avg_open_rate' => $value['stats']['avg_open_rate'],
+	    		'avg_click_rate' => $value['stats']['avg_click_rate'],
+	    		'rank' => $value['member_rating']
+                ];
 	    		} 
 
-	    		$subs->save();
-
+	    		$data = new \App\subscribers;
+                $data::firstOrCreate($subs);
+               
 	    	}
+            
 		}	
     }
 
