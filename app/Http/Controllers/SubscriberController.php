@@ -45,6 +45,18 @@ class SubscriberController extends Controller
 
 	}
 
+    public function addList(Request $request){
+
+        dd($request->all());
+
+    }
+
+    public function deleteList(Request $request){
+
+        dd($request->all());
+
+    }
+
     public function listSubscribers($listId){
 
     	

@@ -22,6 +22,7 @@
         <div class="pull-right">
           <button class="btn btn-primary btn-lg  md-trigger" data-toggle="modal" data-target="#md-colored" type="button">Add Subscriber</button>
           <button type="button" class="btn btn-alt1 btn-lg md-trigger"  data-toggle="modal" data-target="#csvform">Upload CSV</button>
+          <button type="button" class="btn btn-default btn-lg md-trigger"  data-toggle="modal" data-target="#deleteList">Delete List</button>
         </div>
       </div>
 
@@ -187,6 +188,39 @@
       <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
         <button type="submit" class="btn objective-bg">Add</button>
+      </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div id="deleteList" tabindex="-1" role="dialog" class="modal fade modal-colored-header modal-colored-header-warning">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><i class="icon s7-close"></i></button>
+        <h3 class="modal-title">Delete Confirmation</h3>
+      </div>
+      <form role="form" method="POST" action="{{ url('/subscriber/list/delete') }}"  enctype="multipart/form-data">
+
+      <div class="modal-body">
+        <div class="text-center">
+          <div class="i-circle text-warning"><i class="icon s7-attention"></i></div>
+          <h4>Warning!</h4>
+          <p>You are about to delete this list and it's subscribers!</p>
+        </div>
+        {{ csrf_field() }}
+        <div class="form-group">
+          <input type="hidden" required name="list_id" value="{{$list_id}}">
+        </div>
+
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-warning">Delete</button>
       </div>
 
       </form>
