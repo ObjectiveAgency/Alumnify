@@ -47,8 +47,7 @@ class SubscriberController extends Controller
 
     public function listSubscribers($listId){
 
-    	
-        // $list = \App\lists::where('id', $listId)->get();//get details for the list
+    	// $list = \App\lists::where('id', $listId)->get();//get details for the list
         
 
 
@@ -153,12 +152,13 @@ class SubscriberController extends Controller
         $msg = $this->api->updateMembers('post',$resource, $request->all());
         if($msg === ""){
             $msg = 'New subscriber added!';
-            $flash = 'success';
+            $alertType = 1;
         }else{
-            $msg = 'Subscribers already exist!';
+            $msg = 'The subscriber your trying to add already exist!';
+            $alertType = 0;
         };
         Session::flash('flash_message',$msg);
-
+        Session::flash('alertType',$alertType);
         return redirect()->back();
     }
 
@@ -225,30 +225,41 @@ class SubscriberController extends Controller
                     // ];
                 }
                 // dd($listId);
-                $this->api->batch($listId,$tmp1);
+                $upload = $this->api->batch($listId,$tmp1);
+
+                if($upload===0){
+                    $msg = "Upload did not succeed, Please check data if already exist.";
+                    $alertType = 0;
+                }else{
                 $msg = "Success! CSV data are now Uploaded,\n 
                         Please reload page to see changes.";
+                $alertType = 1;}
             }else{
                 $msg = "File contains no data or Invalid CSV header/data format!";
+                $alertType = 0;
             }
 
 
             
         }else{
             $msg =  "no file received!";
+            $alertType = 0;
         }
         Session::flash('flash_message', $msg);
+        Session::flash('alertType', $alertType);
         return redirect()->back();
         
     }
 
      public function subscriberDelete($id){
+
             $item = \App\subscribers::find($id);
             $id = md5($item->email);
-            
-            $this->api->updateMembers("del","lists/$item->/members/$id");
+            $this->api->updateMembers("del","lists/$item->list_id/members/$id");
+            \App\subscribers::destroy($item->id);
+            Session::flash('flash_message', 'Success, subscriber has been deleted');
 
-            return redirect()->back();
+            return redirect("/subscribers/$item->list_id");
      }
 
 }

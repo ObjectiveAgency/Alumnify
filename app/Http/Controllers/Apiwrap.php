@@ -28,6 +28,15 @@ trait ApiWrapperMethod {
         $tmp = [];
         $this->setkey();
         $MailChimp = new MailChimp($this->Oauthkey);
+
+        // $del = $MailChimp->get('batches');
+
+        // foreach($del['batches'] as $value){
+        //     $MailChimp->delete("/batches/".$value['id']);
+            
+        // }
+        // dd($MailChimp->get('batches'));
+
         $Batch = $MailChimp->new_batch();
         
         foreach ($data as $value) {
@@ -38,15 +47,32 @@ trait ApiWrapperMethod {
                asort($tmp);
                $Batch->post('',"lists/$list_id/members",$tmp);
         }
-                
+       
         $Batch->execute();
+        $id = $Batch->check_status()['id'];
+        $MailChimp->new_batch($id);
+
+        while(empty($Batch->check_status()['finished_operations'])){
+            // $Batch->check_status()['errored_operations'];
+        }
+        
+        if(!empty($Batch->check_status()['errored_operations'])){
+            $result = 0; 
+        }else{
+            $result = 1;
+        }
+        // dd($result);
+        $MailChimp->delete("/batches/$id");
+        return $result;
+
     }
 	
-	public function updateMembers($method = string,$resource = string, $data = object){
+	public function updateMembers($method = string,$resource = string, $data =array() ){
 
 		$data = (object) $data;
 		$this->setkey();
 		$update = new MailChimp($this->Oauthkey);
+        if($method!=="del"){
 		$data = [
 			"email_address"=>$data->email,
             "status"=>$data->status,//subcribed, unsubscribed, cleaned, pending
@@ -63,7 +89,7 @@ trait ApiWrapperMethod {
                             "ZIP"=>$data->zip
                  ]
 
-             ];
+             ];}
         switch ($method){
         	case 'del':
         		$update->delete($resource);

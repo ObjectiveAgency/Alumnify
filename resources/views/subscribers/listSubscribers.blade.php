@@ -42,7 +42,7 @@
               </div>
           </div>
           @endif
-          @if(Session::get('flash_message')!=='success')
+          @if(Session::get('alertType')===0)
           <script type="text/javascript">
               document.querySelector("div.alert.alert-success.alert-dismissible").className = "alert alert-danger alert-dismissible";
               document.querySelector("span.icon.s7-check").className = "icon s7-close-circle";
