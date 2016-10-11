@@ -33,6 +33,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/subscriber/update/{id}', 'SubscriberController@subscriberInfoUpdate');
 	Route::post('/subscriber/add/{listId}', 'SubscriberController@subscriberAdd');
 	Route::post('/subscriber/add/bulk/{listId}', 'SubscriberController@subscriberAddBulk');
+	Route::post('/subscriber/list/add', 'SubscriberController@addList');
+	Route::post('/subscriber/list/delete', 'SubscriberController@deleteList');
 	
 	// connections routes
 	Route::get('/connections', 'ConnectionController@index');
