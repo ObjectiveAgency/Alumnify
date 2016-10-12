@@ -36,24 +36,72 @@ class SubscriberController extends Controller
         // $api->addSubs($api->getData('lists'));
        
         $lists = \App\lists::where('user_id', \Auth::user()->id)->get();
-
-        // dd(Auth::user()->id);
-
+            
+        
+        $data = (object) $this->api->getData('/');
+       
         return view('subscribers.lists', [
-            'lists' => $lists,
+            'lists' => $lists,'data'=>$data
         ]);
 
 	}
 
     public function addList(Request $request){
-
-        dd($request->all());
+        // dd($request->all());
+        // $this->api->updateMembers("","");
+        $data = json_decode('{
+                "name":"'.$request->name.'",
+                "contact": {
+                    "company":"'.$request->company.'",
+                    "address1": "'.$request->address1.'",
+                    "address2": "'.$request->address2.'",
+                    "city": "'.$request->city.'",
+                    "state": "'.$request->state.'",
+                    "zip": "'.$request->zip.'",
+                    "country": "'.$request->country.'",
+                    "phone": "'.$request->phone.'"
+                },
+                "permission_reminder": "'.$request->permission_reminder.'",
+                "use_archive_bar": false,
+                "campaign_defaults": {
+                    "from_name": "'.$request->name.'",
+                    "from_email": "'.$request->from_email.'",
+                    "subject": "",
+                    "language": "en"
+                },
+                "email_type_option":false,
+                "notify_on_subscribe": "'.$request->notify_on_subscribe.'",
+                "notify_on_unsubscribe": "'.$request->notify_on_unsubscribe.'"
+            }',true);
+        $msg = $this->api->updateMembers('post','lists?fields=id,name',$data);
+        if($msg === ""){
+            $msg = 'New lists added!';
+            $alertType = 1;
+        }else{
+            $msg = 'The subscriber your trying to add already exist!';
+            $alertType = 0;
+        };
+        Session::flash('flash_message',$msg);
+        Session::flash('alertType',$alertType);
+        return redirect()->back();
 
     }
 
     public function deleteList(Request $request){
 
-        dd($request->all());
+        $msg = $this->api->updateMembers('del','/lists/'.$request->list_id);
+
+        if($msg === ""){
+            $msg = 'New lists added!';
+            $alertType = 1;
+        }else{
+            $msg = 'The subscriber your trying to add already exist!';
+            $alertType = 0;
+        };
+        \App\lists::destroy($request->list_id);
+        Session::flash('flash_message',$msg);
+        Session::flash('alertType',$alertType);
+        return redirect('subscribers');
 
     }
 
@@ -149,7 +197,7 @@ class SubscriberController extends Controller
 
         $subscriber->fill($input)->save();
         $this->api->updateMembers('update',
-            "lists/$subscriber->list_id/members/$subscriber->id",
+            "lists/$subscriber->list_id/members/".md5($subscriber->id),
             $subscriber);
         Session::flash('flash_message', 'Profile Updated!');
 

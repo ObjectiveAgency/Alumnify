@@ -23,6 +23,9 @@ class Apiwrap extends Controller
   
 }
 trait ApiWrapperMethod {
+    private function addhook($data){
+
+    }
 
     public function batch($list_id = string,$data = array()){
         $tmp = [];
@@ -68,11 +71,14 @@ trait ApiWrapperMethod {
     }
 	
 	public function updateMembers($method = string,$resource = string, $data =array() ){
-
-		$data = (object) $data;
+       
 		$this->setkey();
 		$update = new MailChimp($this->Oauthkey);
-        if($method!=="del"){
+        if($method==="del" || isset($data['name'])){
+            $chk = false;
+        }
+        if($chk){
+        $data = (object) $data;
 		$data = [
 			"email_address"=>$data->email,
             "status"=>$data->status,//subcribed, unsubscribed, cleaned, pending
@@ -90,9 +96,11 @@ trait ApiWrapperMethod {
                  ]
 
              ];}
+                   
         switch ($method){
         	case 'del':
         		$update->delete($resource);
+                $chk = true;
         		break;
         	case 'update':
         		$update->patch($resource,$data);
@@ -105,6 +113,14 @@ trait ApiWrapperMethod {
         		break;
         }
         list($msg) = explode("Use",$update->getLastError());
+        if(!$chk){
+            unset($data);
+
+            $data['lists'][0] = json_decode($update->getLastResponse()['body'],true);
+            $this->addList($data);
+            
+        }
+        
         return $msg;
         
            
@@ -131,26 +147,26 @@ trait ApiWrapperMethod {
     	foreach ($rep['reports'] as $key => $value){
      		$rep = new \App\Reports;
     		$rep::firstOrCreate([
-    			'id'=> $value['id'],
-    			'campaign'=> $value['campaign_title'],
-    			'list_id'=> $value['list_id'],
-    			'emails_sent'=> $value['emails_sent'],
-    			'abuse_reports'=> $value['abuse_reports'],
-    			'unsubscribe'=> $value['unsubscribed'],
-    			'hard_bounce'=> $value['bounces']['hard_bounces'],
-    			'soft_bounce'=> $value['bounces']['soft_bounces'],
-    			'opens_total'=> $value['opens']['opens_total'],
-    			'unique_opens'=> $value['opens']['unique_opens'],
-    			'open_rate'=> $value['opens']['unique_opens'],
-    			'clicks_total'=> $value['clicks']['clicks_total'],
-    			'unique_clicks'=> $value['clicks']['unique_clicks'],
+    			'id'=>               $value['id'],
+    			'campaign'=>         $value['campaign_title'],
+    			'list_id'=>          $value['list_id'],
+    			'emails_sent'=>      $value['emails_sent'],
+    			'abuse_reports'=>    $value['abuse_reports'],
+    			'unsubscribe'=>      $value['unsubscribed'],
+    			'hard_bounce'=>      $value['bounces']['hard_bounces'],
+    			'soft_bounce'=>      $value['bounces']['soft_bounces'],
+    			'opens_total'=>      $value['opens']['opens_total'],
+    			'unique_opens'=>     $value['opens']['unique_opens'],
+    			'open_rate'=>        $value['opens']['unique_opens'],
+    			'clicks_total'=>     $value['clicks']['clicks_total'],
+    			'unique_clicks'=>    $value['clicks']['unique_clicks'],
     			'unique_subscriber_clicks'=> $value['clicks']['unique_subscriber_clicks'],
-    			'click_rate'=> $value['clicks']['click_rate'],
-    			'click_rate'=> $value['clicks']['click_rate'],
-    			'sub_rate'=> $value['list_stats']['sub_rate'],
-    			'unsub_rate'=> $value['list_stats']['unsub_rate'],
-    			'list_open_rate'=> $value['list_stats']['open_rate'],
-    			'list_click_rate'=> $value['list_stats']['click_rate'],
+    			'click_rate'=>       $value['clicks']['click_rate'],
+    			'click_rate'=>       $value['clicks']['click_rate'],
+    			'sub_rate'=>         $value['list_stats']['sub_rate'],
+    			'unsub_rate'=>       $value['list_stats']['unsub_rate'],
+    			'list_open_rate'=>   $value['list_stats']['open_rate'],
+    			'list_click_rate'=>  $value['list_stats']['click_rate'],
     			]);
     			}		
     }
@@ -186,7 +202,7 @@ trait ApiWrapperMethod {
 
     public function addList($list = array()){
     	
-    	
+    	// dd($list);
     	foreach ($list['lists'] as $value) {
 
         	$list = new \App\lists;

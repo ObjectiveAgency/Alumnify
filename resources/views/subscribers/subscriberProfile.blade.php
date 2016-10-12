@@ -20,8 +20,8 @@
       <div class="col-md-6">
         <br><br>
         <div class="pull-right">
-          <a href="{{ url('/subscriber/delete') }}/{{$subscriber->id}}" class="btn btn-primary btn-lg  md-trigger" >Delete Subscriber</a>
-          <a href="{{ url('/subscribers/') }}/{{$subscriber->list_id}}" class="btn btn-alt1 btn-lg">Back</a>
+          <button formmethod="post" form="mainform" formaction="{{ url('/subscriber/delete') }}/{{$subscriber->id}}" class="btn btn-primary btn-lg  md-trigger">Delete Subscriber</button>
+          <button formmethod="get" form="mainform" formaction="{{ url('/subscribers/') }}/{{$subscriber->list_id}}" class="btn btn-alt1 btn-lg">Back</button>
         </div>
       </div>
 
@@ -47,7 +47,7 @@
                 <div class="panel-heading">Subscriber's Details</div>
                 <div class="panel-body">
                   
-                  <form role="form" method="POST" action="{{ url('/subscriber/update') }}/{{$subscriber->id}}">
+                  <form id="mainform" role="form" method="POST" action="{{ url('/subscriber/update') }}/{{$subscriber->id}}">
                         {{ csrf_field() }}
                     <div class="form-group">
                       <label>First Name</label>
@@ -171,6 +171,7 @@
         App.init();
         App.dataTables();
       });
+
 </script>
 
 @endsection
