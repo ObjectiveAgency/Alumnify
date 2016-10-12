@@ -23,9 +23,131 @@ class Apiwrap extends Controller
   
 }
 trait ApiWrapperMethod {
+    private function merge_fields($id){
+        $tmp  = ["MNAME" => '{
+                      "tag": "MNAME",
+                      "name": "Middle Initial",
+                      "type": "text",
+                      "required": false,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 3,
+                      "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }',"AGE" =>
+                    '{
+
+                      "tag": "AGE",
+                      "name": "Age",
+                      "type": "number",
+                      "required": true,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 5,
+                       "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }',"GENDER" =>
+                    '{
+
+                      "tag": "GENDER",
+                      "name": "Gender",
+                      "type": "text",
+                      "required": true,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 6,
+                      "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }',"ADDRESS" =>
+                    '{
+
+                      "tag": "ADDRESS",
+                      "name": "Address",
+                      "type": "text",
+                      "required": true,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 7,
+                      "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }',"CITY" =>
+                    '{
+
+                      "tag": "CITY",
+                      "name": "City",
+                      "type": "text",
+                      "required": true,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 8,
+                      "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }',"STATE" =>
+                    '{
+
+                      "tag": "STATE",
+                      "name": "State",
+                      "type": "text",
+                      "required": true,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 9,
+                      "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }',"COUNTRY" =>
+                    '{
+
+                      "tag": "COUNTRY",
+                      "name": "Country",
+                      "type": "text",
+                      "required": true,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 10,
+                      "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }',"ZIP" =>
+                    '{"tag": "ZIP",
+                      "name": "Zip",
+                      "type": "text",
+                      "required": true,
+                      "default_value": "",
+                      "public": true,
+                      "display_order": 11,
+                      "options": {
+                        "size": 25
+                      },
+                      "help_text": ""
+                    }' ];
+        $this->setkey();
+        $MailChimp = new MailChimp($this->Oauthkey);
+        $Batch = $MailChimp->new_batch();
+        foreach($tmp as $value){
+
+        $Batch->post('',"lists/$id/merge-fields",json_decode($value,true));
+           
+        }
+        $Batch->execute();
+
+    }
+
     private function addhook($data){
        
-       $tmp[] = $data['lists'][0]['id'];
+        $data['lists'][0]['id'];
      
         $tmp = '{"url" : "https://b161142f.ngrok.io",
         "events" : {"subscribe" : true, 
@@ -38,11 +160,13 @@ trait ApiWrapperMethod {
                     "admin" : true, 
                     "api" : true}}';
         // dd(json_decode($tmp,true));
+        $this->merge_fields($data['lists'][0]['id']);
         $this->updateMembers('post','/lists/'.$data['lists'][0]['id'].'/webhooks',json_decode($tmp,true));
-          
+        
     }
 
     public function batch($list_id = string,$data = array()){
+        
         $tmp = [];
         $this->setkey();
         $MailChimp = new MailChimp($this->Oauthkey);
@@ -90,7 +214,7 @@ trait ApiWrapperMethod {
        
 		$this->setkey();
 		$update = new MailChimp($this->Oauthkey);
-
+        $chk = true;
         if($method==="del" || !strpos($resource, 'members')){
             $chk = false;
         }
@@ -131,7 +255,7 @@ trait ApiWrapperMethod {
         		break;
         }
         list($msg) = explode("Use",$update->getLastError());
-          if(strpos($resource, 'webhooks')){
+          if(strpos($resource, 'webhooks') || strpos($resource, 'merge-fields')){
             $chk = true;
         }
         if(!$chk){
