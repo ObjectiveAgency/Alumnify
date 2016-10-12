@@ -24,7 +24,22 @@ class Apiwrap extends Controller
 }
 trait ApiWrapperMethod {
     private function addhook($data){
-
+       
+       $tmp[] = $data['lists'][0]['id'];
+     
+        $tmp = '{"url" : "https://b161142f.ngrok.io",
+        "events" : {"subscribe" : true, 
+        "unsubscribe" : true, 
+        "profile" : true, 
+        "cleaned" : true, 
+        "upemail" : true, 
+        "campaign" : true}, 
+        "sources" : {"user" : true,
+                    "admin" : true, 
+                    "api" : true}}';
+        // dd(json_decode($tmp,true));
+        $this->updateMembers('post','/lists/'.$data['lists'][0]['id'].'/webhooks',json_decode($tmp,true));
+          
     }
 
     public function batch($list_id = string,$data = array()){
@@ -76,9 +91,10 @@ trait ApiWrapperMethod {
 		$this->setkey();
 		$update = new MailChimp($this->Oauthkey);
 
-        if($method==="del" || isset($data['name'])){
+        if($method==="del" || !strpos($resource, 'members')){
             $chk = false;
         }
+      
         if($chk){
         $data = (object) $data;
 		$data = [
@@ -115,12 +131,16 @@ trait ApiWrapperMethod {
         		break;
         }
         list($msg) = explode("Use",$update->getLastError());
+          if(strpos($resource, 'webhooks')){
+            $chk = true;
+        }
         if(!$chk){
             unset($data);
 
             $data['lists'][0] = json_decode($update->getLastResponse()['body'],true);
+
             $this->addList($data);
-            
+            $this->addhook($data);
         }
         
         return $msg;
@@ -206,16 +226,17 @@ trait ApiWrapperMethod {
     	
     	// dd($list);
     	foreach ($list['lists'] as $value) {
-
-        	$list = new \App\lists;
+           
+        	$lists = new \App\lists;
+           
         	$userId=Auth::user()->id;
-        	
-        	$list::firstOrCreate([
+            
+        	$lists::firstOrCreate([
                 'id' => $value['id'],
-                'user_id'=>$userId,
-                'name'=>$value['name']
+                'user_id' => $userId,
+                'name' => $value['name']
             ]);
-  	   	
+  	   	break;
     	}
     }
 

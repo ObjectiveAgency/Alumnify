@@ -43,22 +43,9 @@
               </div>
           </div>
           @endif
-<<<<<<< HEAD
+
           @if(Session::get('alertType')===0)
-=======
 
-          @if(Session::has('invalid_input_message'))
-          <div class="row">
-              <div class="col-md-12">
-                  <div id="back" role="alert" class="alert alert-warning alert-dismissible">
-                      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button><span id="icon" class="icon s7-attention"></span>{{ Session::get('invalid_input_message') }}
-                </div>
-              </div>
-          </div>
-          @endif
-
-          @if(Session::get('flash_message')!=='success')
->>>>>>> 8ef8852f5c77ce78da974cb8c37ec529f8015bdd
           <script type="text/javascript">
               document.querySelector("div.alert.alert-success.alert-dismissible").className = "alert alert-danger alert-dismissible";
               document.querySelector("span.icon.s7-check").className = "icon s7-close-circle";

@@ -73,7 +73,9 @@ class SubscriberController extends Controller
                 "notify_on_subscribe": "'.$request->notify_on_subscribe.'",
                 "notify_on_unsubscribe": "'.$request->notify_on_unsubscribe.'"
             }',true);
-        $msg = $this->api->updateMembers('post','lists?fields=id,name',$data);
+        
+        $msg = $this->api->updateMembers('post','/lists?fields=id,name',$data);
+
         if($msg === ""){
             $msg = 'New lists added!';
             $alertType = 1;
@@ -83,7 +85,7 @@ class SubscriberController extends Controller
         };
         Session::flash('flash_message',$msg);
         Session::flash('alertType',$alertType);
-        return redirect()->back();
+        return redirect('subscribers');
 
     }
 
@@ -107,12 +109,10 @@ class SubscriberController extends Controller
 
     public function listSubscribers($listId){
 
-<<<<<<< HEAD
-    	// $list = \App\lists::where('id', $listId)->get();//get details for the list
-=======
+
     	// dd($this->api->updateMembers());
         // $list = \App\lists::where('id', $listId)->get();//get details for the list
->>>>>>> 8ef8852f5c77ce78da974cb8c37ec529f8015bdd
+
         
 
 
@@ -319,7 +319,6 @@ class SubscriberController extends Controller
                 }else{
                     $msg = "File contains no data or Invalid CSV header/data format!";
                 }
-<<<<<<< HEAD
                 // dd($listId);
                 $upload = $this->api->batch($listId,$tmp1);
 
@@ -333,21 +332,16 @@ class SubscriberController extends Controller
             }else{
                 $msg = "File contains no data or Invalid CSV header/data format!";
                 $alertType = 0;
-=======
-            }else{
-                $msg = "Invalid file format!";
->>>>>>> 8ef8852f5c77ce78da974cb8c37ec529f8015bdd
+
             }
         }else{
             $msg =  "no file received!";
             $alertType = 0;
         }
         Session::flash('flash_message', $msg);
-<<<<<<< HEAD
+
         Session::flash('alertType', $alertType);
-=======
-        Session::flash('invalid_input_message', $invalidmsg);
->>>>>>> 8ef8852f5c77ce78da974cb8c37ec529f8015bdd
+
         return redirect()->back();
         
     }
