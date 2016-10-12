@@ -52,6 +52,7 @@ trait ApiWrapperMethod {
         }
        
         $Batch->execute();
+
         $id = $Batch->check_status()['id'];
         $MailChimp->new_batch($id);
 
@@ -74,6 +75,7 @@ trait ApiWrapperMethod {
        
 		$this->setkey();
 		$update = new MailChimp($this->Oauthkey);
+
         if($method==="del" || isset($data['name'])){
             $chk = false;
         }
