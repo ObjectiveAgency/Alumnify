@@ -59,7 +59,7 @@ class SubscriberController extends Controller
 
     public function listSubscribers($listId){
 
-    	
+    	// dd($this->api->updateMembers());
         // $list = \App\lists::where('id', $listId)->get();//get details for the list
         
 
@@ -178,78 +178,102 @@ class SubscriberController extends Controller
         $msg = '';
         if ($request->hasFile('csvfile')) {
             $extension = $request->csvfile->getClientOriginalExtension();
+
             // dd($extension);
+            if ($extension == 'csv') {
+                $invalid=0;
+                $path = $request->file('csvfile')->getRealPath();
+                $data = Excel::load($path, function($reader) {
+                })->get()->toArray();
+                 
+                 // dd($data);
+    
+                if(!empty(count($data))){
+                    $finalData = [
+                                "FNAME",
+                                "MNAME",
+                                "LNAME",
+                                "email_address",
+                                "AGE",
+                                "GENDER",
+                                "ADDRESS",
+                                "CITY",
+                                "STATE",
+                                "COUNTRY",
+                                "ZIP"
+                     ];
+                    $tmp1 = [];
+                    
+                    foreach ($data as $key => $value) { 
+                            
+                            $i=0;
+                        // dd($value);
+                        if( sizeof($value) == 11 ){
 
-            $path = $request->file('csvfile')->getRealPath();
-            $data = Excel::load($path, function($reader) {
+                            foreach($value as $val){
+                                //check age and zip column if number
+                                if ($i==4 || $i == 10) {
+                                    if (is_numeric($val)) {
+                                        // echo $val.' is a number ';
+                                        $tmp[$finalData[$i]] = intval($val);
+                                        // echo $val.' ';
+                                    }else{
+                                        // remove row on the save queue
+                                        $tmp = [];
+                                        break;
+                                    }
+                                }
+                                // validate email columns
+                                elseif ($i==3) {
+                                    if (!filter_var($val, FILTER_VALIDATE_EMAIL) === false) {
+                                        $tmp[$finalData[$i]] = $val;
+                                    } else {
+                                        // remove row on the save queue
+                                        $tmp = [];
+                                        // dd($val);
+                                        break;
+                                    }
+                                }
+                                else{
+                                    $tmp[$finalData[$i]] = $val;
+                                    // echo $val.' ';
+                                }
+                                
+                                $i++;
+                             
+                            }
 
-            })->get()->toArray();
-             
-
-            if(!empty(count($data))){
-                $finalData = [
-                            "FNAME",
-                            "MNAME",
-                            "LNAME",
-                            "email_address",
-                            "AGE",
-                            "GENDER",
-                            "ADDRESS",
-                            "CITY",
-                            "STATE",
-                            "COUNTRY",
-                            "ZIP"
-                 ];
-                $tmp1 = []; 
-                foreach ($data as $key => $value) { 
-
-                        $i=0;
+                            // removes row with invalid input
+                            if (!empty($tmp)) {
+                                array_push($tmp1,$tmp);
+                            }
+                            else{
+                                $invalid++;
+                                $invalidmsg='We have removed '.$invalid.' rows with invalid input!';
+                            }
+                        }else{
+                            $msg= "Fields did not match on the requested format!";
+                            break;
+                        }
                         
-                    //$finalData = array_fill_keys($finalData,array_values($value));
-                    // dd($finalData[0]);
-                    foreach($value as $val){
-
-                        $tmp[$finalData[$i]] = $val;
-
-
-                     $i++;
-                         // foreach($finalData as $key => $carry){
-                         //    $finalData[$key] = $val;
-                         //    echo $key;
-
-                         // }
-                    };
-                    
-                    array_push($tmp1,$tmp);
-                    
-                    // $finalData[] = [
-                    //     'fname' => $value->fname, 
-                    //     'mname' => $value->mname,
-                    //     'lname' => $value->lname,
-                    //     'email' => $value->email,
-                    //     'age' => intval($value->age),
-                    //     'gender' => $value->gender,
-                    //     'address' => $value->address,
-                    //     'city' => $value->city,
-                    //     'state' => $value->state,
-                    //     'country' => $value->country,
-                    //     'zip' => intval($value->zip)
-                    // ];
+                    }
+                    echo $invalid.'<br>';
+                    // dd($tmp1);
+                    // dd($listId);
+                    $this->api->batch($listId,$tmp1);
+                    $msg = "Success! CSV data are now Uploaded,\n 
+                            Please reload page to see changes.";
+                }else{
+                    $msg = "File contains no data or Invalid CSV header/data format!";
                 }
-                // dd($listId);
-                $this->api->batch($listId,$tmp1);
-                $msg = "Success! CSV data are now Uploaded,\n 
-                        Please reload page to see changes.";
             }else{
-                $msg = "File contains no data or Invalid CSV header/data format!";
+                $msg = "Invalid file format!";
             }
-
-
-            
         }else{
             $msg =  "no file received!";
         }
         Session::flash('flash_message', $msg);
+        Session::flash('invalid_input_message', $invalidmsg);
         return redirect()->back();
         
     }

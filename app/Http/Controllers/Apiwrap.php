@@ -40,6 +40,10 @@ trait ApiWrapperMethod {
         }
                 
         $Batch->execute();
+        // dd($Batch);
+        $error = $MailChimp->getLastError();
+
+        return $error;
     }
 	
 	public function updateMembers($method = string,$resource = string, $data = object){
@@ -47,6 +51,7 @@ trait ApiWrapperMethod {
 		$data = (object) $data;
 		$this->setkey();
 		$update = new MailChimp($this->Oauthkey);
+
 		$data = [
 			"email_address"=>$data->email,
             "status"=>$data->status,//subcribed, unsubscribed, cleaned, pending
