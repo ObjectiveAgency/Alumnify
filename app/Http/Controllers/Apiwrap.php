@@ -149,7 +149,7 @@ trait ApiWrapperMethod {
        
         $data['lists'][0]['id'];
      
-        $tmp = '{"url" : "https://b161142f.ngrok.io",
+        $tmp = '{"url" : "http://43b47c4f.ngrok.io/hook",
         "events" : {"subscribe" : true, 
         "unsubscribe" : true, 
         "profile" : true, 
