@@ -10830,7 +10830,7 @@ li.L9 {
   }
 }
 .widget-pie .chart-container .chart {
-  min-height: 125px;
+  min-height: 250px;
 }
 .widget-pie .chart-container .legend > div {
   background-color: transparent !important;
@@ -19714,7 +19714,7 @@ div.dataTables_wrapper div.dataTables_length label select {
   }
 }
 
-/*============== styles custom and overrieds ================*/
+/*============== shad styles custom and overrieds ================*/
 .objective-bg{
   background-color: #4ac6e0!important;
   border-color: #4ac6e0!important;
@@ -19728,4 +19728,12 @@ div.dataTables_wrapper div.dataTables_length label select {
   background-color: #78e04b!important;
   border-color: #78e04b!important;
   color: #fff!important;
+}
+
+.superbig-text{
+  font-size: 50px!important;
+}
+
+.highcharts-credits{
+  display: none;
 }

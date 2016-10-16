@@ -18,7 +18,7 @@ class ConnectionController extends Controller
     return view('connections');
      }
 
-    public function oauthShake(){
+    public function oauthShake(Apiwrap $api){
 
         if(!empty($_REQUEST['code'])){
                 
@@ -49,23 +49,35 @@ class ConnectionController extends Controller
                 
                 curl_close($ch);
 
-                $token = $response->access_token;  
-
-                //add Token to database; should be converted to function
+                $token = $response->access_token;
                 
-            	$user = \Auth::User();
+                $mp=$api->getData('/',$token);
+                //add Token to database; should be converted to function
+                $result = \App\mp_accounts::firstOrCreate([
+                    'id'=>$mp['account_id'],
+                    'email'=>$mp['email'],
+                    'username'=>$mp['username']
+                    ]);
+                if($result->wasRecentlyCreated){
+            	$user = \Auth::user();
              
                 $user->Oauth = $token;
             	$user->save();
 
-            	Session::flash('flash_message', 'Your mailchimp account is now connected!');
-
-            $var = "Connected";
+            	$var = 'Your mailchimp account is now connected!';
+                $alert = 1;
+                }else{
+            $var = "Oops, account is already in use by other user";
+            $alert = 0;
+            }
           }else
             {
             $var = "Connection was unsuccessful";
+            $alert = 0;
                  }
-
+        Session::flash('flash_message',$var);
+        
+        Session::flash('alertType',$alert);
     	return redirect('connections');
     }
 

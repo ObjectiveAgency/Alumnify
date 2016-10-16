@@ -165,13 +165,13 @@
 @section('javascripts')
 
 
-<script src="assets/lib/jquery.sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
-<script src="assets/lib/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-<script src="assets/lib/countup/countUp.min.js" type="text/javascript"></script>
-<script src="assets/lib/chartjs/Chart.min.js" type="text/javascript"></script>
-<script src="assets/js/app-dashboard.js" type="text/javascript"></script>
-<script src="assets/lib/highcharts.js"></script>
-<script src="assets/js/charts.js" type="text/javascript"></script>
+<script src="/assets/lib/jquery.sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
+<script src="/assets/lib/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/assets/lib/countup/countUp.min.js" type="text/javascript"></script>
+<script src="/assets/lib/chartjs/Chart.min.js" type="text/javascript"></script>
+<script src="/assets/js/app-dashboard.js" type="text/javascript"></script>
+<script src="/assets/lib/highcharts.js"></script>
+<script src="/assets/js/charts.js" type="text/javascript"></script>
 <script type="text/javascript">
   $(document).ready(function(){
     //initialize the javascript

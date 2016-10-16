@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -24,6 +25,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        if (!empty(Auth::user()->OAuth)) {
+            return view('dashboard');
+        }else{
+            return redirect('connections');
+        }
     }
 }

@@ -33,9 +33,22 @@ class webhookController extends Controller
     		
     	});
 
+        Webhook::subscribe('profile', function($data){
+
+            $api = new Apiwrap();
+            $datas=['data'=>$data];
+            $api->addSubs($datas);
+
+        });
+
     	Webhook::subscribe('campaign', function($data){
 
+            $api = new Apiwrap();
+            $api->addCamp($api->getData('campaigns'));
+            $api->addRep($api->getData('reports'));
+
     	});
+        
 
     }
 }

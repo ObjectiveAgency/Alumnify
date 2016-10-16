@@ -49,6 +49,7 @@
                   
                   <form id="mainform" role="form" method="POST" action="{{ url('/subscriber/update') }}/{{$subscriber->id}}">
                         {{ csrf_field() }}
+                    <input type="hidden" name="list_id" value="{{ $subscriber->list_id }}">
                     <div class="form-group">
                       <label>First Name</label>
                       <input type="text" placeholder="{{ $subscriber->fname }}" class="form-control"  name="fname">

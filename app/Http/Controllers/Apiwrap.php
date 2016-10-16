@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Auth;
 class Apiwrap extends Controller
 { 	public $Oauthkey;
 
-	private function setkey(){
+	private function setkey($param=''){
+    if(empty($param)){
 		$this->Oauthkey = \Auth::User()->OAuth;
+    }else{
+      $this->Oauthkey = $param;
+    }
 	}
 
 	use ApiWrapperMethod;
@@ -149,7 +153,7 @@ trait ApiWrapperMethod {
        
         $data['lists'][0]['id'];
      
-        $tmp = '{"url" : "http://43b47c4f.ngrok.io/hook",
+        $tmp = '{"url" : "https://0d2b63a7.ngrok.io/hook",
         "events" : {"subscribe" : true, 
         "unsubscribe" : true, 
         "profile" : true, 
@@ -238,6 +242,7 @@ trait ApiWrapperMethod {
                  ]
 
              ];}
+             
                    
         switch ($method){
         	case 'del':
@@ -249,6 +254,7 @@ trait ApiWrapperMethod {
         		break;
         	case 'post':
         		$update->post($resource,$data);
+            // dd($resource);
         		break;
         	default:
         		die("Invalid method receive!");
@@ -264,7 +270,6 @@ trait ApiWrapperMethod {
             $data['lists'][0] = json_decode($update->getLastResponse()['body'],true);
 
             $this->addList($data);
-            $this->addhook($data);
         }
         
         return $msg;
@@ -275,24 +280,27 @@ trait ApiWrapperMethod {
 	}
 
 	public function addDatabase(){
-			if(empty(count(\App\lists::all()))){
-		        $this->addList($this->getData('lists'));
-			}
-		    if(empty(count(\App\subscribers::all()))){
-                $this->addSubs(\App\lists::all());
-		    }
-            if(empty(count(\App\campaigns::all()))){
-                $this->addCamp($this->getData('campaigns'));
-            }
-            if(empty(count(\App\reports::all()))){
-                $this->addRep($this->getData('reports'));
-            }
+            $this->addCamp($this->getData('campaigns'));
+            $this->addRep($this->getData('reports'));
+			// if(empty(count(\App\lists::all()))){
+
+		 //        $this->addList($this->getData('lists'));
+			// }
+		    // if(empty(count(\App\subscribers::all()))){
+                
+		    // }
+      //       if(empty(count(\App\campaigns::all()))){
+                
+      //       }
+      //       if(empty(count(\App\Reports::all()))){
+                
+      //       }
             
 	}
 	 public function addRep($rep = array()){
     	foreach ($rep['reports'] as $key => $value){
      		$rep = new \App\Reports;
-    		$rep::firstOrCreate([
+    		$rep::updateOrCreate(['list_id'=>$value['list_id']],[
     			'id'=>               $value['id'],
     			'campaign'=>         $value['campaign_title'],
     			'list_id'=>          $value['list_id'],
@@ -321,20 +329,20 @@ trait ApiWrapperMethod {
 
     	foreach ($camp['campaigns'] as $value){
     		$camp = new \App\campaigns;
-			$camp::firstOrCreate(array(
+			$camp::updateOrCreate(['list_id'=>$value['recipients']['list_id']],[
 									'id' => $value['id'],
 									'name'=>$value['settings']['title'],
 									'status'=>$value['status'],
 									'email_sent'=>$value['emails_sent'],
 									'list_id'=>$value['recipients']['list_id'],
-									));	
+									]);	
     	}
     	
     }
 
 
-    public function getData($resource){
-        $this->setkey();
+    public function getData($resource,$param = ''){
+        $this->setkey($param);
         $getList = new Mailchimp($this->Oauthkey);
 
         $exclude = explode("/",$resource);
@@ -348,30 +356,37 @@ trait ApiWrapperMethod {
 
     public function addList($list = array()){
     	
-    	// dd($list);
+    	
     	foreach ($list['lists'] as $value) {
            
         	$lists = new \App\lists;
            
         	$userId=Auth::user()->id;
             
-        	$lists::firstOrCreate([
+        	$result = $lists::firstOrCreate([
                 'id' => $value['id'],
                 'user_id' => $userId,
                 'name' => $value['name']
             ]);
-  	   	break;
+          
+          if($result->wasRecentlyCreated){
+            $this->addhook($list);
+            $this->addSubs();
+            $this->addCamp($this->getData('campaigns'));
+            $this->addRep($this->getData('reports'));
+          }
     	}
     }
 
     public function addSubs($result = null){
-
+    	
         $index = 'merge_fields';
         $email = 'email_address';
         $id = 'unique_email_id';
+
         if(empty(count($result))){
      		$list = \App\lists::all();
-                        
+                       
      		global $result;
         
             $result = array();
@@ -425,7 +440,7 @@ trait ApiWrapperMethod {
 	    		} 
 
 	    		$data = new \App\subscribers;
-                $data::firstOrCreate($subs);
+          $data::firstOrCreate($subs);
                
 	    	}
             

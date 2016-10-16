@@ -17,7 +17,7 @@ class CreateSubscribersTable extends Migration
             $table->string('fname');
             $table->string('mname');
             $table->string('lname');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->integer('age');
             $table->char('gender', 6);
             $table->string('address');

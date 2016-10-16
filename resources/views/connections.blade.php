@@ -21,14 +21,25 @@
   
   <div class="main-content">
 
-    @if(Session::has('flash_message'))
-    <div class="row">
-        <div class="col-md-12">
-          <div role="alert" class="alert alert-success alert-dismissible">
-            <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button><span class="icon s7-check"></span>{{ Session::get('flash_message') }}
+  @if(Session::has('flash_message'))
+
+          
+          <div class="row">
+              <div class="col-md-12">
+                  <div id="back" role="alert" class="alert alert-success alert-dismissible">
+                      <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="s7-close"></span></button><span id="icon" class="icon s7-check"></span>{{ Session::get('flash_message') }}
+                </div>
+              </div>
           </div>
-      </div>
-    @endif
+          @endif
+
+          @if(Session::get('alertType')===0)
+
+          <script type="text/javascript">
+              document.querySelector("div.alert.alert-success.alert-dismissible").className = "alert alert-danger alert-dismissible";
+              document.querySelector("span.icon.s7-check").className = "icon s7-close-circle";
+          </script>
+          @endif
 
     <div class="row">
       <div class="col-md-4">
@@ -59,11 +70,10 @@
                  
                   <input type="hidden" aria-hidden="true" name="multiple" class="av-hidden" value="" id="multiple"> 
                   <input type="hidden" aria-hidden="true" name="referrer" class="av-hidden" value="" id="referrer"> 
-<<<<<<< HEAD
+
+
                   <input type="hidden" aria-hidden="true" name="p" class="av-hidden" value="eyJjbGllbnRfaWQiOiIyNzcyNzQ5OTEwNTkiLCJyZXNwb25zZV90eXBlIjoiY29kZSIsInJlZGlyZWN0X3VyaSI6Imh0dHA6XC9cLzEwNC4yMzYuMTM5LjIzN1wvY29ubmVjdGlvbnNcL2FkZCIsInN0YXRlIjpudWxsLCJzY29wZSI6bnVsbH0=" id="p">
-=======
-                  <input type="hidden" aria-hidden="true" name="p" class="av-hidden" value="eyJjbGllbnRfaWQiOiIyNzcyNzQ5OTEwNTkiLCJyZXNwb25zZV90eXBlIjoiY29kZSIsInJlZGlyZWN0X3VyaSI6Imh0dHA6XC9cL2FsdW1uaWZ5LmRldlwvY29ubmVjdGlvbnNcL2FkZCIsInN0YXRlIjpudWxsLCJzY29wZSI6bnVsbH0=" id="p">
->>>>>>> d893f2a103f17c8c8c05e3373afdea780c79cb19
+
                   <!-- eyJjbGllbnRfaWQiOiIyNzcyNzQ5OTEwNTkiLCJyZXNwb25zZV90eXBlIjoiY29kZSIsInJlZGlyZWN0X3VyaSI6Imh0dHA6XC9cL2xvY2FsLmFsdW1uaWZ5LmRldlwvY29ubmVjdGlvbnNcL2FkZCIsInN0YXRlIjpudWxsLCJzY29wZSI6bnVsbH0= -->
 
                 <div class="modal-body form">
