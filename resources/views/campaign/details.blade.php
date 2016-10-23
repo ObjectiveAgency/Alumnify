@@ -42,19 +42,19 @@
           <div class="panel-body">
             <div class="row chart-info">
               <div class="col-md-3 text-center">
-                <h1 class="superbig-text"><span data-toggle="counter" data-end="34" class="number">0</span></h1><br>
+                <h1 class="superbig-text"><span data-toggle="counter" data-end="{{$ev->opens_total}}" class="number">0</span></h1><br>
                 <span class="title">Opens</span>
               </div>
               <div class="col-md-3 text-center">
-                <h1 class="superbig-text"><span data-toggle="counter" data-end="8" class="number">0</span></h1><br>
+                <h1 class="superbig-text"><span data-toggle="counter" data-end="{{$ev->clicks_total}}" class="number">0</span></h1><br>
                 <span class="title">Clicked</span>
               </div>
               <div class="col-md-3 text-center">
-                <h1 class="superbig-text"><span data-toggle="counter" data-end="2" class="number">0</span></h1><br>
+                <h1 class="superbig-text"><span data-toggle="counter" data-end="{{$ev->hard_bounce}}" class="number">0</span></h1><br>
                 <span class="title">Bounced</span>
               </div>
               <div class="col-md-3 text-center">
-                <h1 class="superbig-text"><span data-toggle="counter" data-end="12" class="number">0</span></h1><br>
+                <h1 class="superbig-text"><span data-toggle="counter" data-end="{{$ev->unsubscribe}}" class="number">0</span></h1><br>
                 <span class="title">Unsubscribed</span>
               </div>
             </div>
@@ -69,8 +69,14 @@
           <div class="panel-heading">
             <span class="title">Top 5 Most Engaged Users</span>
           </div>
+          
           <div class="panel-body">
-            
+            <!-- display data here -->
+            <ol>
+              @foreach($top5->name as $list)
+                <li>{{$list->name}}</li>
+              @endforeach
+            </ol>
           </div>
         </div>
       </div>
@@ -80,7 +86,7 @@
             <span class="title">Top 5 Least Engaged Users</span>
           </div>
           <div class="panel-body">
-            
+            <!-- display data here -->
           </div>
         </div>
       </div>
@@ -103,7 +109,14 @@
             <span class="title">Top 5 Age Engagement</span>
           </div>
           <div class="panel-body">
-            
+            <!-- display data here -->
+            <ol>
+
+              @foreach($top5->age as $list)
+                <li>{{$list->age}}</li>
+              @endforeach
+
+            </ol>
           </div>
         </div>
       </div>
@@ -114,19 +127,34 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <span class="title">Top 5 Citites</span>
+            
           </div>
           <div class="panel-body">
-            
+            <!-- display data here -->
+            <ol>
+
+              @foreach($top5->city as $list)
+                <li>{{$list->city}}</li>
+              @endforeach
+    
+            </ol>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <span class="title">Top 5 States</span>
+            <span class="title">Top 5 States</span>  
           </div>
           <div class="panel-body">
-            
+            <!-- display data here -->
+            <ol>
+
+              @foreach($top5->state as $list)
+                <li>{{$list->state}}</li>
+              @endforeach
+
+            </ol>
           </div>
         </div>
       </div>
@@ -139,7 +167,14 @@
             <span class="title">Top 5 Country</span>
           </div>
           <div class="panel-body">
-            
+            <!-- display data here -->
+            <ol>
+
+              @foreach($top5->country as $list)
+                <li>{{$list->country}}</li>
+              @endforeach
+
+            </ol>
           </div>
         </div>
       </div>
@@ -173,14 +208,17 @@
 <script src="/assets/lib/highcharts.js"></script>
 <script src="/assets/js/charts.js" type="text/javascript"></script>
 <script type="text/javascript">
+
   $(document).ready(function(){
     //initialize the javascript
     App.init();
     
     counter();
-    genderEngagement(56.33,43.7);
 
-    openRate(10, 20, 5.7, 5, 11.9, 15.2, 100);
+    genderEngagement({{($top5['gender']['male']/$top5['gender']['total'])*100}},{{($top5['gender']['female']/$top5['gender']['total'])*100}});
+    // var day ={mon:[],tue:[],wed:[],thur:[],fri:[],sat:[],sun:[]};
+    // alert(day);
+    openRatePerDay(10, 20, 5.7, 5, 11.9, 15.2, 4/6);
 
     });//end document ready
 

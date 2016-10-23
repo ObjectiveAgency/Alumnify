@@ -70,10 +70,45 @@
             }]
         });
   }
+  
 
+  function openRatePerDay(mon, tue, wed, thurs, fri, sat, sun){
+    var weekdays = [];
+    for (var i=0; i<7; i++) {
+        var date = new Date();
+        date.setDate(date.getDate() - i);
+        var day = date.getDay()
+        // weekdays.push( d.getDay() );
+        switch (day ) {
+            case 0:
+                weekdays.push('Monday');
+            break;
 
-  function openRate(mon, tue, wed, thurs, fri, sat, sun){
+            case 1:
+                weekdays.push('Tuesday');
+            break;
 
+            case 2:
+                weekdays.push('Wednesday');
+            break;
+
+            case 3:
+                weekdays.push('Thursday');
+            break;
+
+            case 4:
+                weekdays.push('Friday');
+            break;
+
+            case 5:
+                weekdays.push('Saturday');
+            break;
+
+            case 6:
+                weekdays.push('Sunday');
+            break;
+        }
+    }
     $('#open-rate-per-day').highcharts({
         title: {
             text: '',
@@ -84,7 +119,7 @@
             x: -20
         },
         xAxis: {
-            categories: ['Monday', 'Tuesday', 'Wednesday', 'Thrusday', 'Friday', 'Saturday', 'Sunday']
+            categories: weekdays
         },
         yAxis: {
             title: {
@@ -107,7 +142,48 @@
         },
         series: [{
             name: 'Open Rate',
-            data: [mon, tue, wed, thurs, fri, sat, sun]
+            data: weekdays
+        }]
+    });
+
+  }
+
+function openRatePerMonth(jan, feb, march, april, may, jun, july, aug, sept, oct, nov, dec){
+
+    $('#open-rate-per-day').highcharts({
+        title: {
+            text: '',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        },
+        yAxis: {
+            title: {
+                text: 'Percentage (%)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Open Rate',
+            data: [jan, feb, march, april, may, jun, july, aug, sept, oct, nov, dec]
         }]
     });
 

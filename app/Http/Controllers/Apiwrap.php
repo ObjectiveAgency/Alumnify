@@ -300,7 +300,7 @@ trait ApiWrapperMethod {
 	 public function addRep($rep = array()){
     	foreach ($rep['reports'] as $key => $value){
      		$rep = new \App\Reports;
-    		$rep::updateOrCreate(['list_id'=>$value['list_id']],[
+    		$rep::updateOrCreate(['id'=>$value['id']],[
     			'id'=>               $value['id'],
     			'campaign'=>         $value['campaign_title'],
     			'list_id'=>          $value['list_id'],
@@ -326,10 +326,10 @@ trait ApiWrapperMethod {
     }
 
 	public function addCamp($camp = array() ){
-
+      // dd($camp);
     	foreach ($camp['campaigns'] as $value){
     		$camp = new \App\campaigns;
-			$camp::updateOrCreate(['list_id'=>$value['recipients']['list_id']],[
+			$camp::updateOrCreate(['id'=>$value['id']],[
 									'id' => $value['id'],
 									'name'=>$value['settings']['title'],
 									'status'=>$value['status'],
@@ -372,8 +372,7 @@ trait ApiWrapperMethod {
           if($result->wasRecentlyCreated){
             $this->addhook($list);
             $this->addSubs();
-            $this->addCamp($this->getData('campaigns'));
-            $this->addRep($this->getData('reports'));
+            
           }
     	}
     }
@@ -439,8 +438,8 @@ trait ApiWrapperMethod {
                 ];
 	    		} 
 
-	    		$data = new \App\subscribers;
-          $data::firstOrCreate($subs);
+
+          \App\subscribers::firstOrCreate($subs);
                
 	    	}
             
