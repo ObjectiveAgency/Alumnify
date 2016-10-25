@@ -72,43 +72,36 @@
   }
   
 
-  function openRatePerDay(mon, tue, wed, thurs, fri, sat, sun){
-    var weekdays = [];
-    for (var i=0; i<7; i++) {
-        var date = new Date();
-        date.setDate(date.getDate() - i);
-        var day = date.getDay()
-        // weekdays.push( d.getDay() );
-        switch (day ) {
-            case 0:
-                weekdays.push('Monday');
-            break;
+  function openRatePerDay(data){
 
-            case 1:
-                weekdays.push('Tuesday');
-            break;
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-            case 2:
-                weekdays.push('Wednesday');
-            break;
+        week = [];
 
-            case 3:
-                weekdays.push('Thursday');
-            break;
+        day = new Date(Object.keys(data)[Object.keys(data).length -1 ]);
 
-            case 4:
-                weekdays.push('Friday');
-            break;
+        values = [];
 
-            case 5:
-                weekdays.push('Saturday');
-            break;
+        for(i=0;i<7;i++){
 
-            case 6:
-                weekdays.push('Sunday');
-            break;
+            week.push(days[day.getDay()]);
+
+            for(var key in data){
+
+                if((new Date(key)).toString() === day.toString()){
+
+                values.push(data[key]);
+
+                 }
+            }
+
+            if(values[i]===undefined)
+
+            values.push(0);
+
+            day.setDate(day.getDate() - 1);
+
         }
-    }
     $('#open-rate-per-day').highcharts({
         title: {
             text: '',
@@ -119,7 +112,7 @@
             x: -20
         },
         xAxis: {
-            categories: weekdays
+            categories: week.reverse()
         },
         yAxis: {
             title: {
@@ -142,13 +135,19 @@
         },
         series: [{
             name: 'Open Rate',
-            data: weekdays
+            data: values.reverse()
         }]
     });
 
   }
 
-function openRatePerMonth(jan, feb, march, april, may, jun, july, aug, sept, oct, nov, dec){
+function openRatePerMonth(data){
+
+    month = {January:0, February:0, March:0, April:0, May:0, June:0, July:0, August:0, September:0, October:0, November:0, December:0}
+    
+    for(var key in data){
+    month[key] = data[key];
+    }
 
     $('#open-rate-per-day').highcharts({
         title: {
@@ -183,7 +182,9 @@ function openRatePerMonth(jan, feb, march, april, may, jun, july, aug, sept, oct
         },
         series: [{
             name: 'Open Rate',
-            data: [jan, feb, march, april, may, jun, july, aug, sept, oct, nov, dec]
+            data: [month['January'], month['February'], 
+            month['March'], month['April'], month['May'], month['June'], month['July'], 
+            month['August'], month['September'], month['October'], month['November'], month['December']]
         }]
     });
 

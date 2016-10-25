@@ -7,23 +7,17 @@
   <div class="page-head">
     <div class="row">
       <div class="col-md-9">
-        <h2>Campaigns</h2>
-        <p>Here you can see the data from all your campaigns</p>
+        <h2></h2>
+        <p><strong></strong> campaign details.</p>
       </div>
 
       <div class="col-md-3">
         <br><br>
-        <div class="dropdown pull-right">
-          <form method="POST" action="">
-            <div class="input-group xs-mb-15">
-              <select class="form-control">
-                <option >Campaign 1</option>
-                <option>Campaign 2</option>
-                <option>Campaign 3</option>
-              </select><span class="input-group-btn">
-              <button type="button" class="btn btn-primary">Go</button></span>
-            </div>
-          </form>
+        <div class="btn-group btn-hspace pull-right">
+          <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Select a campaign <span class="caret"></span></button>
+          <ul role="menu" class="dropdown-menu">
+           
+          </ul>
         </div>
       </div>
 
@@ -218,10 +212,12 @@
     genderEngagement({{($top5['gender']['male']/$top5['gender']['total'])*100}},{{($top5['gender']['female']/$top5['gender']['total'])*100}});
     // var day ={mon:[],tue:[],wed:[],thur:[],fri:[],sat:[],sun:[]};
     // alert(day);
-    openRatePerDay(10, 20, 5.7, 5, 11.9, 15.2, 4/6);
+    
+    var data = {!!json_encode($top5->days->toArray())!!};
+    // var label = ['10/16/16','10/14/16'];
+    openRatePerDay(data);
 
     });//end document ready
-
     
 </script>
 

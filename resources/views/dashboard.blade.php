@@ -24,7 +24,7 @@
           </div>
           
           <div class="panel-body">
-           
+           {{ucwords($charts['gender']->sortByDesc('count')->first()[0]->gender)}}, {{ucwords($charts['age']->first()->age)}}, {{ucwords($charts['city']->first()->city)}}, {{ucwords($charts['state']->first()->state)}}
           </div>
         </div>
       </div>
@@ -34,7 +34,10 @@
             <span class="title">Least Engaged Customer Demographic</span>
           </div>
           <div class="panel-body">
-            <!-- display data here -->
+            {{ucwords($charts['gender']->sortByDesc('count')->last()[0]->gender)}}
+            @foreach($charts['least'] as $item)
+              ,{{$item[0]}}
+            @endforeach
           </div>
         </div>
       </div>
@@ -63,7 +66,13 @@
             <span class="title">Top 5 Least Engaged Users</span>
           </div>
           <div class="panel-body">
-            <!-- display data here -->
+             <ol>
+            
+            @foreach($charts['least5'] as $item)
+            <li>{{$item->name}}</li>
+            
+            @endforeach
+            </ol>
           </div>
         </div>
       </div>
@@ -160,7 +169,7 @@
              <ol>
             
             @foreach($charts['campaign'] as $item)
-            <li>{{$item->country}}</li>
+            <li>{{$item->name}}</li>
             
             @endforeach
             </ol>
@@ -205,9 +214,12 @@
     App.init();
     
     counter();
-    genderEngagement(25,75);
+   alert({!!json_encode($charts['line']->toArray())!!});
+    genderEngagement({{($charts['gender']['male'][0]->count/($charts['gender']['female'][0]->count+$charts['gender']['male'][0]->count))*100}},{{($charts['gender']['female'][0]->count/($charts['gender']['female'][0]->count+$charts['gender']['male'][0]->count))*100}});
 
-    openRatePerMonth(10, 20, 5.7, 5, 11.9, 15.2, 100, 10, 20, 5.7, 5, 11.9); //please pass 12 params here, put 0 for null values
+    // alert({{json_encode($charts['line']->toArray())}});{!!json_encode($charts['line']->toArray())!!};
+    month  = {!!json_encode($charts['line']->toArray())!!};
+    openRatePerMonth(month); //please pass 12 params here, put 0 for null values
 
     });//end document ready
 

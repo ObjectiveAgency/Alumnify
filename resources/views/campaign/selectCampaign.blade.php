@@ -13,18 +13,13 @@
 
       <div class="col-md-3">
         <br><br>
-        <div class="dropdown pull-right">
-          <form method="POST" action="">
-            <div class="input-group xs-mb-15">
-              <select class="form-control">
-                <option>Choose a campaign</option>
-                <option >Campaign 1</option>
-                <option>Campaign 2</option>
-                <option>Campaign 3</option>
-              </select><span class="input-group-btn">
-              <button type="button" class="btn btn-primary">Go</button></span>
-            </div>
-          </form>
+        <div class="btn-group btn-hspace pull-right">
+          <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Select a campaign <span class="caret"></span></button>
+          <ul role="menu" class="dropdown-menu">
+            @foreach($campaigns as $campaign)
+              <li><a href="{{ url('/campaign') }}/{{$campaign->id}}">{{$campaign->name}}</a></li>
+            @endforeach
+          </ul>
         </div>
       </div>
 

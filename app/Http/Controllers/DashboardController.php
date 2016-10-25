@@ -30,77 +30,147 @@ class DashboardController extends Controller
            
                 $charts = collect();
                 
-                $activity_data = \App\activity::select(\DB::raw('TIME_TO_SEC(TIMEDIFF(open,sent)) AS time'),'email_id','camp_id')->wherein('list_id',$listid)->orderBy('open')->
+                $activity_data = \App\activity::select(\DB::raw('TIME_TO_SEC(TIMEDIFF(open,sent)) AS time'),'email_id','camp_id','open')->wherein('list_id',$listid)->orderBy('open')->
                 get();
-               
                 
-                
+
+
+                $charts['least5'] = collect();
+                $charts['line'] = collect();
+                $charts['line']->total = $activity_data->count();
                 foreach($activity_data as $key => $value){
                         
-                        if ($value->time === null)
-                        unset($activity_data[$key]);
+                        if ($value->time === null){
+                        $charts['least5']->push($activity_data[$key]);
+                        unset($activity_data[$key]);}
                 }
+                 
+                $charts['line'] = $activity_data->map(function($value){
+
+                        $value->month = getdate(strtotime($value->open))['month'];
+
+                        return $value;
+                })->groupBy('month')->map(function($value)use($charts){
+                    return round(($value->count()/$charts['line']->total)*100,2);
+                });
+                 // dd($charts['line']);
                 
-                
+                 
+                $charts['least5'] = $charts['least5']->groupBy('email_id')->map(function($value){
+                    return $value->count('email_id');
+                });
+
+                // dd($charts['least5']);
                 $activity_data = $activity_data->values()->groupBy('email_id');
                 // dd($activity_data->values()->toArray());
-                $tmp = [];
-                $charts['top5'] = $activity_data->map(function($value,$key)use(&$tmp){
+                $charts['top5'] = collect();              
+                $subref = $activity_data->map(function($value,$key) use(&$charts){
 
                     $value->put('count',$value->count());  
                     $value->put('time',$value->sum('time'));
                     $value->put('email',$key);
+                    
+
 
                     // $value->put('campaign',$value->count('camp_id'));
                     for($i = 0;$i < $value['count'];$i++)
-                        $tmp[$value[$i]->camp_id]= $value->count('camp_id');
                         unset($value[$i]);
+                    
+                    $charts['top5']->put($key,$value->toArray());
+                    // dd($charts['top5'][$key],$charts['top5'][$key]['count']);
+                    if(isset($charts['least5'][$key])){
+                        $value['count'] = $value['count'] - $charts['least5'][$key];
+                        if($value['count'] < 1){
+                            $charts['least5'][$key] = $value['count'] * -1;
+                            unset($charts['top5'][$key]);
+                        }else{
+                              $charts['top5'][$key]['count'] = $value['count'];
+                        }
+                    }
                     return $value;
 
                 });
-                arsort($tmp);
-                dd($tmp);
-                $charts['top5'] = $charts['top5']->sortByDesc('count')->groupBy('count')->map(function($value){
-                        $value = $value->sortBy('time');
-                        return $value;
-                })->toArray();
-                
-                $charts['top5'] = $charts->flatten()->filter(function ($value, $key) {
+
+
+                $charts['least5'] = $charts['least5']->sort()->reverse()->keys();
+                function _orderSort($var){
+                           $var = $var->sortByDesc('count')->groupBy('count')->map(function($value){
+                                $value = $value->sortBy('time');
+                                return $value;
+                                })->flatten()->filter(function ($value, $key) {
                                     if(!is_numeric($value))
                                     return $value;
                                 })->values()->toArray();
+
+                                return $var;
+                            }
+                
+                 $charts['top5'] = _orderSort($charts['top5']);
+
+                 $subref = _orderSort($subref);
+                
+                // $charts['top5'] = $charts['top5']
+                $charts['gender'] = \App\subscribers::select(\DB::raw('gender, COUNT(*) AS count'))
+                            ->wherein('email',$subref)
+                            ->groupBy('gender')
+                            ->get()->groupBy('gender');
+
                 $charts['countries'] = \App\subscribers::select(\DB::raw('country, COUNT( * ) AS count'))
-                            ->wherein('email',$charts['top5'])
+                            ->wherein('email',$subref)
                             ->groupBy('country')
                             ->orderBy('count', 'desc')
-                            ->orderByRaw("FIELD(email,'".implode("','",$charts['top5'])."')")->take(5)->get();
+                            ->orderByRaw("FIELD(email,'".implode("','",$subref)."')")->take(5)->get();
+
                 $charts['state'] = \App\subscribers::select(\DB::raw('state, COUNT( * ) AS count'))
-                            ->wherein('email',$charts['top5'])
+                            ->wherein('email',$subref)
                             ->groupBy('state')
                             ->orderBy('count', 'desc')
-                            ->orderByRaw("FIELD(email,'".implode("','",$charts['top5'])."')")->take(5)->get();
+                            ->orderByRaw("FIELD(email,'".implode("','",$subref)."')")->take(5)->get();
+
                 $charts['city'] = \App\subscribers::select(\DB::raw('city, COUNT( * ) AS count'))
-                            ->wherein('email',$charts['top5'])
+                            ->wherein('email',$subref)
                             ->groupBy('city')
                             ->orderBy('count', 'desc')
-                            ->orderByRaw("FIELD(email,'".implode("','",$charts['top5'])."')")->take(5)->get();            
+                            ->orderByRaw("FIELD(email,'".implode("','",$subref)."')")->take(5)->get(); 
+
                 $charts['age'] = \App\subscribers::select(\DB::raw('age, COUNT( * ) AS count'))
-                            ->wherein('email',$charts['top5'])
+                            ->wherein('email',$subref)
                             ->groupBy('age')
                             ->orderBy('count', 'desc')
-                            ->orderByRaw("FIELD(email,'".implode("','",$charts['top5'])."')")->take(5)->get();
-                $charts['campaign'] = \App\activity::select(\DB::raw('camp_id, COUNT( * ) AS count'))
-                            ->wherein('email_id',$charts['top5'])
+                            ->orderByRaw("FIELD(email,'".implode("','",$subref)."')")->take(5)->get();
+                
+                
+                $charts['campaign'] = \App\campaigns::select('name','activity.camp_id',\DB::raw('count(*) as count'))
+                            ->join('activity','activity.camp_id', '=', 'campaigns.id')
+                            ->where('activity.open','<>','null')
                             ->groupBy('camp_id')
-                            ->orderBy('count', 'desc')
-                            ->orderByRaw("FIELD(email_id,'".implode("','",$charts['top5'])."')")->take(5)->get();  
+                            ->orderBy('count','desc')->get();
+                            
+                // dd(implode(collect($charts['top5'])->take(-1)->values()->toArray()));
+                if((sizeof($charts['top5'])-5)>0){
+                 collect($charts['top5'])->take(5-sizeof($charts['top5']))->each(function($values) use(&$charts){
+                    $charts['least5']->push($values);
+                 });
+                }
 
+                
                 $charts['top5'] = \App\subscribers::select(\DB::raw('CONCAT(fname," ",mname," ",lname) as name'))
                             ->wherein('email',$charts['top5'])
                             ->orderByRaw("FIELD(email,'".implode("','",$charts['top5'])."')")->take(5)->get();
-            
-            
-             
+
+                $charts['least5'] = \App\subscribers::select('age','city','state',\DB::raw('CONCAT(fname," ",mname," ",lname) as name'))
+                            ->wherein('email',$charts['least5'])
+                            ->orderByRaw("FIELD(email,'".implode("','",$charts['least5']->toArray())."')")->take(5)->get();
+                
+                function jose($var,$param){
+                return $param->groupBy($var)->map(function($value,$key)use(&$param){
+                    $value->put('count',$value->count());
+                    unset($value[0]);
+                    return $value;
+                })->sortByDesc('count')->take(1)->keys();}
+
+                $charts['least'] = [jose('age',$charts['least5']),jose('city',$charts['least5']),jose('state',$charts['least5'])];
+             // dd($charts);
             return view('dashboard',['charts' => $charts]);
         }else{
             return redirect('connections');

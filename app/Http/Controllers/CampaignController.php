@@ -88,7 +88,14 @@ class CampaignController extends Controller
             # will used the Id's to reference the data from subscribers DB table.
             **/
             $ini_refs = \App\activity::select('email_id','list_id','open')->whereCamp_id($campaignId)->where('open','!=',null)->orderBy('open','asc')->get();
-     
+            
+            $charts->least = \App\activity::select('email_id','list_id','open')->whereCamp_id($campaignId)->where('open','=',null)->orderBy('open','asc')->get()->map(function($value,$key)use(&$charts){
+                $value = $value->email_id;
+                return $value;
+                 });
+
+            $charts->email_sent = \App\campaigns::select('email_sent')->whereid($campaignId)->get()->map(function($value){return $value->email_sent;});          
+
             $charts->days = $ini_refs->map(function($value,$key){
                $value = $value->toArray();
                unset($value['email_id']);
@@ -97,11 +104,11 @@ class CampaignController extends Controller
                 return  $value;})->sortBy('open')->groupBy('open');
 
             foreach($charts->days as $key => $value){
-                $charts->days[$key] = count($value);
+                $charts->days[$key] = round(((count($value)/$charts->email_sent[0])*100),2);
 
             }
             
-            $charts->email_sent = \App\campaigns::select('email_sent')->whereid($campaignId)->get()->map(function($value){return $value->email_sent;});
+            
                                               
             $subs_ref = ['listId'=>[],'email'=>[]]; //create a subscribers reference variable
 
@@ -140,8 +147,20 @@ class CampaignController extends Controller
                         
                         return $var;
 
-                    }));        
+                    }));
             
+            if((sizeof($subs_ref['email'])-5)>0){
+                 collect($subs_ref['email'])->take(5-sizeof($subs_ref['email']))->each(function($values) use(&$charts){
+                    $charts->least->push($values);
+                 });
+                }                
+            $charts->least = \App\subscribers::select(\DB::raw('CONCAT( subscribers.fname,  " ", subscribers.mname,  " ", subscribers.lname ) AS name, activity.open'))
+                    ->join('activity','activity.email_id','=','subscribers.email')
+                    ->where('activity.camp_id','=',$campaignId)
+                    ->wherein('subscribers.email',$charts->least->toArray())
+                    ->orderBy('activity.open','asc')->take(5)
+                    ->get();
+
             $charts->name =\App\subscribers::select(\DB::raw('CONCAT( subscribers.fname,  " ", subscribers.mname,  " ", subscribers.lname ) AS name, activity.open'))
                     ->join('activity','activity.email_id','=','subscribers.email')
                     ->where('activity.camp_id','=',$campaignId)
