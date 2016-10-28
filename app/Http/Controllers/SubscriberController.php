@@ -83,9 +83,9 @@ class SubscriberController extends Controller
                 }',true);
             
             $msg = $this->api->updateMembers('post','/lists?fields=id,name',$data);
-    
+            
             if($msg === ""){
-                $msg = 'New lists added!';
+                $msg = 'New lists added! Please Reload if list does not diplay';
                 $alertType = 1;
             }else{
                 $msg = 'The subscriber your trying to add already exist!';
@@ -126,12 +126,7 @@ class SubscriberController extends Controller
 
     public function listSubscribers($listId){
 
-        if (!empty(Auth::user()->OAuth)) {
-    	   // dd($this->api->updateMembers());
-            // $list = \App\lists::where('id', $listId)->get();//get details for the list
-    
-            
-    
+        if (!empty(Auth::user()->OAuth)) {   
     
             $list = \App\lists::where('id', $listId)->get()->first();//get details for the list
             // dd($list->name);
@@ -248,8 +243,9 @@ class SubscriberController extends Controller
             $request['mname']=""; //set middle name to nothing
             
             $msg = $this->api->updateMembers('post',$resource, $request->all());
-            if($msg === ""){
-                $msg = 'New subscriber added!';
+            
+            if(empty($msg)){
+                $msg = 'New subscriber added! Please reload if subscriber doesn\'t display';
                 $alertType = 1;
             }else{
                 $msg = 'The subscriber your trying to add already exist!';
@@ -257,7 +253,7 @@ class SubscriberController extends Controller
             };
             Session::flash('flash_message',$msg);
             Session::flash('alertType',$alertType);
-            return redirect()->back();
+            return redirect('subscribers/'.$listId);
         }else{
             return redirect('connections');
         }
@@ -351,7 +347,7 @@ class SubscriberController extends Controller
                         echo $invalid.'<br>';
                         // dd($tmp1);
                         // dd($listId);
-                        $this->api->batch($listId,$tmp1);
+                        // $this->api->batch($listId,$tmp1);
                         $msg = "Success! CSV data are now Uploaded,\n 
                                 Please reload page to see changes.";
                     }else{
@@ -359,7 +355,7 @@ class SubscriberController extends Controller
                     }
                     // dd($listId);
                     $upload = $this->api->batch($listId,$tmp1);
-    
+                    
                     if($upload===0){
                         $msg = "Upload did not succeed, Please check data if already exist.";
                         $alertType = 0;

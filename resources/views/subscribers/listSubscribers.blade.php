@@ -178,11 +178,15 @@
       <form role="form" method="POST" action="{{ url('/subscriber/add/bulk') }}/{{$list_id}}"  enctype="multipart/form-data">
 
       <div class="modal-body">
-        <h4>Please upload your csv file.</h4>
+        <h4>Please upload your csv file.</h4><p>Please follow this format for your CSV file</p>
+<pre><span class="inner-pre" style="font-size: 11px">//Always include the fist line as header
+First Name,Middle Initial,Last Name,Email Address,Age,Gender,Address,City,State,Country,Postal Code
+Joel,Dorne,Abramson,Joel@Objective.Agency,26,Male,Leeds,London,England,UK,1234
+</span></pre>
         <br><br>
-        {{ csrf_field() }}
+        <input type="hidden" name="_token" value="2mDZneMtMV34a03qpKOoPX1BPrkFbxmT4XDVA3lh">
         <div class="form-group">
-          <input type="file" required name="csvfile" accept=".csv">
+          <input type="file" required="" name="csvfile" accept=".csv">
         </div>
 
       </div>

@@ -6,15 +6,19 @@
   
   <div class="page-head">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-8">
         <h2>Dashboard</h2>
         <p>Here you can see the data from all your campaigns</p>
       </div>
-
+      
+      <div class="col-md-4">
+      <br><br>
+        <button type="button" class="btn btn-space btn-success pull-right" id="download_pdf"><i class="icon icon-left s7-cloud-download"></i> Download PDF</button>
+      </div>
     </div>
   </div>
   
-  <div class="main-content">
+  <div class="main-content front">
 
     <div class="row">
       <div class="col-md-6">
@@ -208,14 +212,15 @@
 <script src="/assets/js/app-dashboard.js" type="text/javascript"></script>
 <script src="/assets/lib/highcharts.js"></script>
 <script src="/assets/js/charts.js" type="text/javascript"></script>
+
 <script type="text/javascript">
   $(document).ready(function(){
     //initialize the javascript
     App.init();
     
     counter();
-   alert({!!json_encode($charts['line']->toArray())!!});
-    genderEngagement({{($charts['gender']['male'][0]->count/($charts['gender']['female'][0]->count+$charts['gender']['male'][0]->count))*100}},{{($charts['gender']['female'][0]->count/($charts['gender']['female'][0]->count+$charts['gender']['male'][0]->count))*100}});
+   // alert({!!json_encode($charts['line']->toArray())!!});
+   
 
     // alert({{json_encode($charts['line']->toArray())}});{!!json_encode($charts['line']->toArray())!!};
     month  = {!!json_encode($charts['line']->toArray())!!};
@@ -225,5 +230,9 @@
 
     
 </script>
+
+<script src="/assets/js/jspdf.min.js"></script>
+<script src="/assets/js/html2canvas.min.js"></script>
+<script src="/assets/js/pdf.js"></script>
 
 @endsection

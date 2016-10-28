@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 
+// require __DIR__ . '/vendor/autoload.php';
+
+use Knp\Snappy\Pdf;
+
 class CampaignController extends Controller
 {
     /**
@@ -29,7 +33,12 @@ class CampaignController extends Controller
         if (!empty(Auth::user()->OAuth)) {
             $api->addCamp($api->getData('campaigns'));
             $api->addRep($api->getData('reports'));
-            $campaigns = \App\campaigns::all();
+
+            $campaigns = \App\campaigns::select(\DB::raw('campaigns.id, lists.name, lists.user_id'))
+                        ->join('lists', 'campaigns.list_id', '=', 'lists.id')
+                        ->where('lists.user_id','=',Auth::user()->id)->get();
+
+                        
             /*
                 PLACE CODES HERE
             */
@@ -47,6 +56,7 @@ class CampaignController extends Controller
                     // print_r($api->getData("lists/$value->id/members/$id/"));
 
                     // dd($sub->toArray());
+                    // dd($api->getData("lists/$value->id/members/$id/activity"));
                     foreach($api->getData("lists/$value->id/members/$id/activity")['activity'] as $act){
                         
                        
@@ -82,6 +92,8 @@ class CampaignController extends Controller
             # get data from report DB table by the given campId
             **/
             $ev = \App\Reports::find($campaignId);
+            $campaigns = \App\campaigns::all();
+            $campaignSelected = \App\campaigns::find($campaignId);
             $charts = collect([]); //initiate charts data holder as collections     
             /**
             # Getting the data from activity DB table by the given campId, and taking email and list Id's only,
@@ -134,8 +146,11 @@ class CampaignController extends Controller
 
                         $var['male'] = 0;
                         $var['female'] = 0;
+                        if($values->count()!=0){
                         $var['total'] = $values->count();
-
+                        }else{
+                            $var['total']=1;
+                        }
                         // dd($values->gender);
                         foreach($values as $item){
                             
@@ -201,11 +216,30 @@ class CampaignController extends Controller
                     ->get();
 
             
-            return view('campaign.details',['ev' => $ev, 'top5'=>$charts]);
+            // 
+        
+            // dd($charts);
+        
+            
+            return view('campaign.details',['ev' => $ev, 'top5'=>$charts, 'campaigns'=> $campaigns, 'campaignSelected' => $campaignSelected]);
 
         }else{
            return redirect('connections');
         }
     
     }
+
+    public function generatePDF($campaignId){
+
+        // dd();
+
+        // Display the resulting pdf in the browser
+        // by setting the Content-type header to pdf
+        $snappy = new Pdf('/usr/local/bin/wkhtmltopdf');
+        header('Content-Type: application/pdf',true,200);
+        header('Content-Disposition: attachment; filename="file.pdf"');
+        echo $snappy->getOutput('http://www.github.com');
+
+    }
+
 }

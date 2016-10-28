@@ -146,6 +146,21 @@ trait ApiWrapperMethod {
            
         }
         $Batch->execute();
+        $id = $Batch->check_status()['id'];
+        $MailChimp->new_batch($id);
+
+        while(empty($Batch->check_status()['finished_operations'])){
+            // $Batch->check_status()['errored_operations'];
+        }
+        dd($Batch->check_status());
+        if(!empty($Batch->check_status()['errored_operations'])){
+            $result = 0; 
+        }else{
+            $result = 1;
+        }
+        // dd($result);
+        $MailChimp->delete("/batches/$id");
+        return $result;
 
     }
 
@@ -153,7 +168,7 @@ trait ApiWrapperMethod {
        
         $data['lists'][0]['id'];
      
-        $tmp = '{"url" : "https://0d2b63a7.ngrok.io/hook",
+        $tmp = '{"url" : "https://b229df99.ngrok.io/hook",
         "events" : {"subscribe" : true, 
         "unsubscribe" : true, 
         "profile" : true, 

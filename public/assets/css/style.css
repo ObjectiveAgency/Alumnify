@@ -19734,6 +19734,6 @@ div.dataTables_wrapper div.dataTables_length label select {
   font-size: 50px!important;
 }
 
-.highcharts-credits{
+.highcharts-credits, .printview{
   display: none;
 }

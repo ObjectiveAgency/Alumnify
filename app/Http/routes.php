@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
 	// campaign routes
 	Route::get('/campaign', 'CampaignController@index');
 	Route::get('/campaign/{campaignId}', 'CampaignController@details');
+	Route::get('/campaign/{campaignId}/generatepdf', 'CampaignController@generatepdf');
 	
 	// subscribers routes
 	Route::get('/subscribers', 'SubscriberController@lists');

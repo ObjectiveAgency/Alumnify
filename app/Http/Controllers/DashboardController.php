@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class DashboardController extends Controller
 {
@@ -27,7 +28,12 @@ class DashboardController extends Controller
     {
         if (!empty(Auth::user()->OAuth)) {
             $listid = \App\lists::select('id')->whereUser_id(Auth::user()->id)->get()->toArray();
-           
+            if(empty($listid)){
+                Session::flash('flash_message','Please create list first!');
+                Session::flash('alertType',0);
+                return redirect('subscribers');
+            }
+                
                 $charts = collect();
                 
                 $activity_data = \App\activity::select(\DB::raw('TIME_TO_SEC(TIMEDIFF(open,sent)) AS time'),'email_id','camp_id','open')->wherein('list_id',$listid)->orderBy('open')->
@@ -110,6 +116,7 @@ class DashboardController extends Controller
                  $subref = _orderSort($subref);
                 
                 // $charts['top5'] = $charts['top5']
+
                 $charts['gender'] = \App\subscribers::select(\DB::raw('gender, COUNT(*) AS count'))
                             ->wherein('email',$subref)
                             ->groupBy('gender')
@@ -170,7 +177,7 @@ class DashboardController extends Controller
                 })->sortByDesc('count')->take(1)->keys();}
 
                 $charts['least'] = [jose('age',$charts['least5']),jose('city',$charts['least5']),jose('state',$charts['least5'])];
-             // dd($charts);
+             // dd($charts->toArray());
             return view('dashboard',['charts' => $charts]);
         }else{
             return redirect('connections');

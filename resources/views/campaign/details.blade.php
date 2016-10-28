@@ -1,33 +1,41 @@
 @extends('layouts.dashboard')
 
+@section('css')
+  <link rel="stylesheet" type="text/css" href="/assets/css/print.css">
+@endsection
+
 @section('content')
 
 <div class="am-content">
   
   <div class="page-head">
     <div class="row">
-      <div class="col-md-9">
-        <h2></h2>
-        <p><strong></strong> campaign details.</p>
+      <div class="col-md-8">
+        <h2>{{$campaignSelected->name}}</h2>
+        <p> Here you can see the data from <strong>{{$campaignSelected->name}}</strong> campaign</p>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <br><br>
         <div class="btn-group btn-hspace pull-right">
           <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false">Select a campaign <span class="caret"></span></button>
           <ul role="menu" class="dropdown-menu">
-           
+          @foreach($campaigns as $campaign)
+           <li><a href="{{url('/campaign')}}/{{$campaign->id}}">{{$campaign->name}}</a></li>
+          @endforeach
           </ul>
         </div>
+
+        <button type="button" class="btn btn-space btn-success pull-right" id="download_pdf"><i class="icon icon-left s7-cloud-download"></i> Download PDF</button>
       </div>
 
     </div>
     
   </div>
   
-  <div class="main-content">
+  <div class="main-content front">
 
-    <div class="row">
+    <div class="row overview">
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -80,7 +88,11 @@
             <span class="title">Top 5 Least Engaged Users</span>
           </div>
           <div class="panel-body">
-            <!-- display data here -->
+            <ol>
+              @foreach($top5->least as $list)
+                <li>{{$list->name}}</li>
+              @endforeach
+            </ol>
           </div>
         </div>
       </div>
@@ -188,6 +200,10 @@
 
 </div>
 
+<!-- ============ PRINT VIEW ============ -->
+
+<!-- ============ END PRINT VIEW ============ -->
+
 @endsection
 
 
@@ -201,6 +217,9 @@
 <script src="/assets/js/app-dashboard.js" type="text/javascript"></script>
 <script src="/assets/lib/highcharts.js"></script>
 <script src="/assets/js/charts.js" type="text/javascript"></script>
+<script src="/assets/js/jspdf.min.js"></script>
+<script src="/assets/js/html2canvas.min.js"></script>
+<script src="/assets/js/pdf.js"></script>
 <script type="text/javascript">
 
   $(document).ready(function(){

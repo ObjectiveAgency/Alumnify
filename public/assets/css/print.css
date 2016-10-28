@@ -1,0 +1,7 @@
+@media print{
+
+	.page-head{
+		display: none!important;
+	}
+
+}
