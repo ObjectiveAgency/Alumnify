@@ -152,7 +152,7 @@ trait ApiWrapperMethod {
         while(empty($Batch->check_status()['finished_operations'])){
             // $Batch->check_status()['errored_operations'];
         }
-        dd($Batch->check_status());
+        // dd($Batch->check_status());
         if(!empty($Batch->check_status()['errored_operations'])){
             $result = 0; 
         }else{

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 
+use Session;
+
+
 // require __DIR__ . '/vendor/autoload.php';
 
 use Knp\Snappy\Pdf;
@@ -28,21 +31,21 @@ class CampaignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Apiwrap $api)
-    {
+    public function index()
+    {   $api = new Apiwrap;
         if (!empty(Auth::user()->OAuth)) {
             $api->addCamp($api->getData('campaigns'));
             $api->addRep($api->getData('reports'));
 
-            $campaigns = \App\campaigns::select(\DB::raw('campaigns.id, lists.name, lists.user_id'))
+            $campaigns = \App\campaigns::select(\DB::raw('campaigns.id, campaigns.name, lists.user_id'))
                         ->join('lists', 'campaigns.list_id', '=', 'lists.id')
                         ->where('lists.user_id','=',Auth::user()->id)->get();
-
+            // dd($campaigns);
                         
             /*
                 PLACE CODES HERE
             */
-                $list = \App\lists::where('user_id', '=', Auth::user()->id)->get();
+            $list = \App\lists::where('user_id', '=', Auth::user()->id)->get();
                global $tmp;
                $tmp = [];
             foreach($list as $value){
@@ -91,8 +94,14 @@ class CampaignController extends Controller
             /**
             # get data from report DB table by the given campId
             **/
+            
             $ev = \App\Reports::find($campaignId);
-            $campaigns = \App\campaigns::all();
+            if(empty($ev)){
+                Session::flash('flash_message','No campaings reports found, Please check Mailchimp account for the associated reports');
+                Session::flash('alertType',0);
+                return redirect('campaign');
+            }
+            $campaigns = $this->index()->campaigns;
             $campaignSelected = \App\campaigns::find($campaignId);
             $charts = collect([]); //initiate charts data holder as collections     
             /**

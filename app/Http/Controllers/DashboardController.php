@@ -26,11 +26,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        function errmsg($err){
+            Session::flash('flash_message',$err);
+            Session::flash('alertType',0);
+        }
         if (!empty(Auth::user()->OAuth)) {
             $listid = \App\lists::select('id')->whereUser_id(Auth::user()->id)->get()->toArray();
+
             if(empty($listid)){
-                Session::flash('flash_message','Please create list first!');
-                Session::flash('alertType',0);
+                errmsg('Please create list first!');
                 return redirect('subscribers');
             }
                 
@@ -96,7 +100,11 @@ class DashboardController extends Controller
                     return $value;
 
                 });
-
+                // dd();
+                if(empty($subref->count())){
+                    errmsg('No associated data found, Pleas make sure that the campaigns still exist at your Mailchimp account');
+                    return redirect('campaign');
+                }
 
                 $charts['least5'] = $charts['least5']->sort()->reverse()->keys();
                 function _orderSort($var){
@@ -150,6 +158,7 @@ class DashboardController extends Controller
                 $charts['campaign'] = \App\campaigns::select('name','activity.camp_id',\DB::raw('count(*) as count'))
                             ->join('activity','activity.camp_id', '=', 'campaigns.id')
                             ->where('activity.open','<>','null')
+                            ->where('campaigns.list_id','=',$listid)
                             ->groupBy('camp_id')
                             ->orderBy('count','desc')->get();
                             
