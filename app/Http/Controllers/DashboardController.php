@@ -102,7 +102,7 @@ class DashboardController extends Controller
                 });
                 // dd();
                 if(empty($subref->count())){
-                    errmsg('No associated data found, Pleas make sure that the campaigns still exist at your Mailchimp account');
+                    errmsg('No associated data found, Please make sure that the campaigns still exist at your Mailchimp account');
                     return redirect('campaign');
                 }
 
