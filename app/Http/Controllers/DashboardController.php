@@ -125,10 +125,37 @@ class DashboardController extends Controller
                 
                 // $charts['top5'] = $charts['top5']
 
-                $charts['gender'] = \App\subscribers::select(\DB::raw('gender, COUNT(*) AS count'))
+                $charts['gender'] = \App\subscribers::select(\DB::raw('gender'))
                             ->wherein('email',$subref)
-                            ->groupBy('gender')
-                            ->get()->groupBy('gender');
+                            ->get();
+
+                $charts->put('gender',$charts['gender'] //get and pipe data to extract gender
+                        ->pipe(function($values){
+
+                        $var['male'] = 0;
+                        $var['female'] = 0;
+                        if($values->count()!=0){
+                        $var['total'] = $values->count();
+                        }else{
+                            $var['total']=1;
+                        }
+                        // dd($values->gender);
+                        foreach($values as $item){
+                            
+                            if (strtolower($item->gender) === 'male')
+                                $var['male'] += 1;
+                            if (strtolower($item->gender) === 'female')
+                                $var['female'] += 1;
+                        }
+                        
+                        return $var;
+
+                    }));
+                $tmp = $charts['gender'];
+                unset($tmp['total']);
+                arsort($tmp);
+                $tmp = array_keys($tmp);
+                $charts->tmp = $tmp;
 
                 $charts['countries'] = \App\subscribers::select(\DB::raw('country, COUNT( * ) AS count'))
                             ->wherein('email',$subref)

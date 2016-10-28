@@ -16,6 +16,7 @@ Route::get('/', 'LandingController@index');
 Route::auth();
 Route::get('hook','webhookController@get');
 Route::post('hook','webhookController@post');
+Route::post('/send', 'EmailController@send');
 // authentication routes
 Route::group(['middleware' => 'auth'], function () {
    

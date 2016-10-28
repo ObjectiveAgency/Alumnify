@@ -28,7 +28,7 @@
           </div>
           
           <div class="panel-body">
-           {{ucwords($charts['gender']->sortByDesc('count')->first()[0]->gender)}}, {{ucwords($charts['age']->first()->age)}}, {{ucwords($charts['city']->first()->city)}}, {{ucwords($charts['state']->first()->state)}}
+           {{ucwords($charts->tmp[0])}}, {{ucwords($charts['age']->first()->age)}}, {{ucwords($charts['city']->first()->city)}}, {{ucwords($charts['state']->first()->state)}}
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
             <span class="title">Least Engaged Customer Demographic</span>
           </div>
           <div class="panel-body">
-            {{ucwords($charts['gender']->sortByDesc('count')->last()[0]->gender)}}
+            {{ucwords($charts->tmp[1])}}
             @foreach($charts['least'] as $item)
               ,{{$item[0]}}
             @endforeach
@@ -199,6 +199,7 @@
 
 </div>
 
+
 @endsection
 
 
@@ -220,7 +221,9 @@
     
     counter();
    // alert({!!json_encode($charts['line']->toArray())!!});
+
    
+   genderEngagement({{($charts['gender']['male']/$charts['gender']['total'])*100}},{{($charts['gender']['female']/$charts['gender']['total'])*100}});
 
     // alert({{json_encode($charts['line']->toArray())}});{!!json_encode($charts['line']->toArray())!!};
     month  = {!!json_encode($charts['line']->toArray())!!};
