@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Dashboard</title>
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.css" />
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="main.css" />
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU" crossorigin="anonymous">
+	<script src="chart.js"></script>
+
+	<style>
+		body {
+			background-color: #2C2C31;
+			margin-top: 30px;
+			margin-left: 120px;
+			margin-right: 20px;
+		}
+		
+		.ui.inverted.segment.myNav {
+			background: rgba(27, 28, 29, 0);
+		}
+		
+		div.item.brand {
+			background: #c8c8c8;
+		}
+		
+		.ui.vertical.inverted.menu .menu .item {
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
+		
+		.ui.message {
+			position: fixed;
+			margin: 10px;
+			z-index: 1050;
+			bottom: 0px;
+			right: 0px;
+		}
+	</style>
+
+
+
+
+</head>
+
+
+<body>
+
+	<!--- ====== Modal Form Subscribers ====== -->
+
+	<div class="ui basic modal subscriber">
+		<div class="ui grid">
+			<div class="column">
+
+
+				<form class="ui form inverted">
+					<div class="field">
+						<label>First Name</label>
+						<input type="text" name="first-name" placeholder="First Name">
+					</div>
+					<div class="field">
+						<label>Last Name</label>
+						<input type="text" name="last-name" placeholder="Last Name">
+					</div>
+					<div class="field">
+						<div class="ui checkbox">
+							<input type="checkbox" tabindex="0" class="hidden">
+							<label>I agree to the Terms and Conditions</label>
+						</div>
+					</div>
+					<button class="ui button" type="submit">Submit</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<!--- ====== Modal for Mailchip Login ====== -->
+
+	<div class="ui basic modal mailchimp ">
+		<div class="ui grid">
+			<div class="column">
+				<div class="ui center">
+
+
+					<form class="ui form inverted">
+
+						<img src="http://compound-creative.com/images/case-study/MailChimp-Freddie-og.png" style=" width: 100px">
+						<div class="field">
+
+							<label>Email</label>
+							<input type="text" name="first-name" placeholder="Mailchimp Email">
+						</div>
+						<div class="field">
+							<label>Password</label>
+							<input type="password" name="last-name" placeholder="Password">
+						</div>
+
+						<button class="ui button" type="submit">Connect</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--- ====== MENU START ====== -->
+
+
+
+
+
+	<div class="ui vertical inverted sidebar labeled icon menu visible" id="fuckit">
+		<div class="secondary menu new">
+			<div class="brand" style="background: black; padding-top: 40px; padding-bottom: 40px; width:100px;">
+				<!-- <img src="https://maxcdn.icons8.com/Share/icon/Industry//robot_21600.png" style=" width: 60px"> -->
+				<h3 style="color: white;">
+					Optimus
+				</h3>
+			</div>
+			<div>
+				<img class="image" src="http://thebestfashionblog.com/wp-content/uploads/2013/08/hipster-sunglasses-1.jpg" style="width: 100px;">
+
+			</div>
+
+			<a class="active item">
+				<i class="block layout icon fa-3x "></i>
+			</a>
+			<a class="item">
+				<i class="block layout icon"></i>
+			</a>
+			<a class="item">
+				<i class="block layout icon"></i>
+			</a>
+			<a class="item">
+				<i class="block layout icon"></i>
+			</a>
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+
+	</div>
+
+
+
+	
+
+
+
+
+
+	<!--- ====== MENU END ====== -->
+
+
+	<div class="ui message inverted">
+
+		<i class="close icon"></i>
+		<div class="header">
+			Welcome back!
+		</div>
+		<p>This is a special notification which you can dismiss if you're bored with it.</p>
+	</div>
+
+	<div class="ui message inverted">
+
+		<i class="close icon"></i>
+		<div class="header">
+			Welcome back!
+		</div>
+		<p>This is a special notification which you can dismiss if you're bored with it.</p>
+	</div>
+
+
+
+
+
+
+
+
+
+
+	<div class="ui grid stackable ">
+
+
+
+
+		<div class="sixteen wide column ">
+			<div class="row">
+
+
+
+
+
+
+
+				<h1 style="color: white;">
+		Dashboard
+					</h1>
+
+
+
+
+				<a class="ui button" id="clicked">
+					<i class="icon add circle"></i> Add Subscribers
+				</a>
+
+
+
+
+
+				<a class="ui button" id="mailchimp">
+					<i class="icon add circle"></i> Connect Mailchimp
+				</a>
+
+
+
+
+
+			</div>
+
+
+
+
+		</div>
+	
+
+
+
+
+
+
+
+	<div class="row ">
+
+
+		<div class="eight wide column">
+
+
+
+
+
+			<table class="ui inverted table " id="testfade">
+
+
+
+				<thead>
+					<tr>
+						<th>Ranks</th>
+						<th>Status</th>
+						<th>Notes</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="ui image header inverted">
+								<img src="http://semantic-ui.com/images/avatar2/small/lena.png" class="ui mini rounded image">
+								<div class="content">
+
+									Lena
+
+									<div class="sub header">Human Resources
+									</div>
+								</div>
+							</div>
+						</td>
+						<td>Approved</td>
+						<td>None</td>
+					</tr>
+
+				</tbody>
+
+
+			</table>
+
+
+		</div>
+
+
+
+
+
+
+
+		<div class="eight wide column">
+
+
+			<table class="ui inverted table">
+				<thead>
+					<tr>
+						<th>Ranks</th>
+						<th>Status</th>
+						<th>Notes</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+					<tr>
+						<td>3</td>
+						<td>Denied</td>
+						<td>None</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+		</div>
+
+
+
+
+	</div>
+
+
+
+
+
+
+
+
+
+	</div>
+
+	<script>
+		$('.message .close')
+			.on('click', function() {
+				$(this)
+					.closest('.message')
+					.transition('fade');
+			});
+
+		$(document).ready(function() {
+			$('#clicked').click(function() {
+				$('.ui.basic.modal.subscriber')
+					.modal('show');
+			});
+		});
+
+		$(document).ready(function() {
+			$('#mailchimp').click(function() {
+				$('.ui.modal.mailchimp')
+					.modal('show');
+			});
+		});
+
+
+
+
+
+		$(document).ready(function() {
+			$('#fuckit')
+				.transition('jiggle');
+		});
+
+
+
+		$('#testfade')
+			// fade up out is used if available
+			.transition('fade up')
+			// this is now fade up in
+			.transition('fade up');
+	</script>
+
+
+
+</body>
+
+</html>
